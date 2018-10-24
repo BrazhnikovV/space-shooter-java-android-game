@@ -64,4 +64,11 @@ public class MenuScreen extends Base2DScreen {
         img.dispose();
         super.dispose();
     }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        touch.set(screenX, Gdx.graphics.getHeight() - screenY);
+        v.set(touch.cpy().sub(pos).setLength(0.5f));
+        return false;
+    }
 }
