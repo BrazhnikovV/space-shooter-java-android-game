@@ -19,6 +19,10 @@ public class MenuScreen extends Base2DScreen {
 
     private Vector2 v;
 
+    private Vector2 touch;
+
+    private Vector2 buff;
+
 
     @Override
     public void show() {
@@ -27,6 +31,8 @@ public class MenuScreen extends Base2DScreen {
         this.img = new Texture( "badlogic.jpg" );
         this.pos = new Vector2(0,0 );
         this.v = new Vector2(2,3 );
+        this.touch = new Vector2(0,0 );
+        this.buff = new Vector2();
     }
 
     @Override
@@ -35,6 +41,16 @@ public class MenuScreen extends Base2DScreen {
 
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        this.buff.set( this.touch );
+
+        if ( this.buff.cpy().sub( this.pos).len() > this.v.len() ) {
+            this.pos.add( this.v );
+        }
+        else {
+            this.pos.set( this.touch );
+        }
+
         batch.begin();
         batch.draw(img, this.pos.x, this.pos.y );
         batch.end();
