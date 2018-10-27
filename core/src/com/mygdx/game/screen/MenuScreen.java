@@ -41,18 +41,10 @@ public class MenuScreen extends Base2DScreen {
      */
     private Vector2 buff;
 
-    /**
-     *  @access private
-     *  @var SpriteBatch batch -
-     */
-    private SpriteBatch batch;
-
-
     @Override
     public void show() {
         super.show();
 
-        this.batch = new SpriteBatch();
         this.img   = new Texture( "badlogic.jpg" );
         this.pos   = new Vector2(0,0 );
         this.touch = new Vector2();
@@ -64,7 +56,7 @@ public class MenuScreen extends Base2DScreen {
     public void render( float delta ) {
         super.render(delta);
 
-        Gdx.gl.glClearColor(1, 0, 0, 1);
+        Gdx.gl.glClearColor(1, 0, 0, 1 );
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         this.buff.set( this.touch );
@@ -81,21 +73,19 @@ public class MenuScreen extends Base2DScreen {
         this.batch.begin();
         this.batch.draw( this.img, this.pos.x, this.pos.y, 0.5f, 0.5f );
         this.batch.end();
-
-        this.pos.add( this.v );
     }
 
     @Override
     public void dispose() {
-        this.batch.dispose();
+        //this.batch.dispose();
         this.img.dispose();
         super.dispose();
     }
 
     @Override
-    public boolean touchDown( int screenX, int screenY, int pointer, int button ) {
-        this.touch.set( screenX, Gdx.graphics.getHeight() - screenY );
-        this.v.set( this.touch.cpy().sub( this.pos ).scl( 0.1f ) );
+    public boolean touchDown( Vector2 touch, int pointer ) {
+        this.touch = touch;
+        v.set( this.touch.cpy().sub( this.pos).scl( 0.01f ) );
         return false;
     }
 }
