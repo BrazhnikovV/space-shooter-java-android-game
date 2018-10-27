@@ -71,7 +71,7 @@ public class MenuScreen extends Base2DScreen {
 
 
         this.batch.begin();
-        this.batch.draw( this.img, this.pos.x, this.pos.y, 0.5f, 0.5f );
+        this.batch.draw( this.img, this.pos.x, this.pos.y, 1.25f, 1.25f );
         this.batch.end();
     }
 

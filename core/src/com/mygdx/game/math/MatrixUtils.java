@@ -3,9 +3,19 @@ package com.mygdx.game.math;
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Matrix4;
 
+/**
+ * MatrixUtils - класс для работы с преобразованием матриц
+ *
+ * @version 1.0.1
+ * @package com.mygdx.game.math
+ * @author  Vasya Brazhnikov
+ * @copyright Copyright (c) 2018, Vasya Brazhnikov
+ */
 public class MatrixUtils {
 
-
+    /**
+     * Constructor
+     */
     private MatrixUtils() {}
 
     /**
