@@ -8,6 +8,6 @@ import com.mygdx.game.Start2DGame;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		new LwjglApplication(new Start2DGame(), config);
+		new LwjglApplication( new Start2DGame(), config );
 	}
 }

@@ -61,7 +61,6 @@ public class Base2DScreen implements Screen, InputProcessor {
         this.batch = new SpriteBatch();
         Gdx.input.setInputProcessor( this );
 
-
         this.screenBounds = new Rect();
         this.worldBounds  = new Rect();
         this.glBounds  = new Rect(0, 0, 1f, 1f );
@@ -80,7 +79,7 @@ public class Base2DScreen implements Screen, InputProcessor {
 
         System.out.println( "resize w = " + width + " h = " + height );
 
-        this.screenBounds.setSize(width, height);
+        this.screenBounds.setSize( width, height );
         this.screenBounds.setLeft( 0 );
         this.screenBounds.setBottom( 0 );
 
@@ -89,7 +88,7 @@ public class Base2DScreen implements Screen, InputProcessor {
         this.worldBounds.setWidth( 1f * aspect );
 
         MatrixUtils.calcTransitionMatrix( this.worldToGl, this.worldBounds, this.glBounds );
-        this.batch.setProjectionMatrix( this.worldToGl);
+        this.batch.setProjectionMatrix( this.worldToGl );
         MatrixUtils.calcTransitionMatrix( this.screenToWorld, this.screenBounds, this.worldBounds );
     }
 
@@ -134,8 +133,10 @@ public class Base2DScreen implements Screen, InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         System.out.println( "touchDown" );
-        touch.set(screenX, screenBounds.getHeight() - screenY).mul(screenToWorld);
-        touchDown(this.touch, pointer);
+
+        touch.set( screenX, screenBounds.getHeight() - screenY).mul( screenToWorld );
+        touchDown( this.touch, pointer );
+
         return false;
     }
 

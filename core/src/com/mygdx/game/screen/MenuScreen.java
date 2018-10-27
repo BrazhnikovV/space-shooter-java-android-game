@@ -61,7 +61,7 @@ public class MenuScreen extends Base2DScreen {
     }
 
     @Override
-    public void render(float delta) {
+    public void render( float delta ) {
         super.render(delta);
 
         Gdx.gl.glClearColor(1, 0, 0, 1);
@@ -69,31 +69,33 @@ public class MenuScreen extends Base2DScreen {
 
         this.buff.set( this.touch );
 
-        if ( this.buff.cpy().sub( this.pos).len() > this.v.len() ) {
+
+        if ( this.buff.sub( this.pos).len() > this.v.len() ) {
             this.pos.add( this.v );
         }
         else {
             this.pos.set( this.touch );
         }
 
-        batch.begin();
-        batch.draw(img, this.pos.x, this.pos.y );
-        batch.end();
+
+        this.batch.begin();
+        this.batch.draw( this.img, this.pos.x, this.pos.y );
+        this.batch.end();
 
         this.pos.add( this.v );
     }
 
     @Override
     public void dispose() {
-        batch.dispose();
-        img.dispose();
+        this.batch.dispose();
+        this.img.dispose();
         super.dispose();
     }
 
     @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        touch.set(screenX, Gdx.graphics.getHeight() - screenY);
-        v.set(touch.cpy().sub(pos).setLength(0.5f));
+    public boolean touchDown( int screenX, int screenY, int pointer, int button ) {
+        this.touch.set( screenX, Gdx.graphics.getHeight() - screenY );
+        this.v.set( this.touch.cpy().sub( this.pos ).scl( 0.1f ) );
         return false;
     }
 }

@@ -5,17 +5,20 @@ import com.badlogic.gdx.math.Vector2;
 public class Rect {
 
     /**
-     * позиция по центру
+     * @access private
+     * @var Vector2 pos - позиция по центру
      */
     public final Vector2 pos = new Vector2();
 
     /**
-     * половина ширины
+     * @access private
+     * @var float halfWidth - половина ширины
      */
-    protected float halfWidth; // половина ширины
+    protected float halfWidth;
 
     /**
-     * половина высоты
+     * @access private
+     * @var float halfHeight - половина высоты
      */
     protected float halfHeight;
 
@@ -23,88 +26,88 @@ public class Rect {
 
     }
 
-    public Rect(Rect from) {
-        this(from.pos.x, from.pos.y, from.getHalfWidth(), from.getHalfHeight());
+    public Rect( Rect from ) {
+        this( from.pos.x, from.pos.y, from.getHalfWidth(), from.getHalfHeight() );
     }
 
-    public Rect(float x, float y, float halfWidth, float halfHeight) {
-        pos.set(x, y);
-        this.halfWidth = halfWidth;
+    public Rect( float x, float y, float halfWidth, float halfHeight ) {
+        this.pos.set( x, y );
+        this.halfWidth  = halfWidth;
         this.halfHeight = halfHeight;
     }
 
     public float getLeft() {
-        return pos.x - halfWidth;
+        return this.pos.x - this.halfWidth;
     }
 
     public float getTop() {
-        return pos.y + halfHeight;
+        return this.pos.y + this.halfHeight;
     }
 
     public float getRight() {
-        return pos.x + halfWidth;
+        return this.pos.x + this.halfWidth;
     }
 
     public float getBottom() {
-        return pos.y - halfHeight;
+        return this.pos.y - this.halfHeight;
     }
 
     public float getHalfWidth() {
-        return halfWidth;
+        return this.halfWidth;
     }
 
     public float getHalfHeight() {
-        return halfHeight;
+        return this.halfHeight;
     }
 
     public float getWidth() {
-        return halfWidth * 2f;
+        return this.halfWidth * 2f;
     }
 
     public float getHeight() {
-        return halfHeight * 2f;
+        return this.halfHeight * 2f;
     }
 
-    public void set(Rect from) {
-        pos.set(from.pos);
-        halfWidth = from.halfWidth;
-        halfHeight = from.halfHeight;
+    public void set( Rect from ) {
+        this.pos.set( from.pos );
+        this.halfWidth  = from.halfWidth;
+        this.halfHeight = from.halfHeight;
     }
 
-    public void setLeft(float left) {
-        pos.x = left + halfWidth;
+    public void setLeft( float left ) {
+        this.pos.x = left + this.halfWidth;
     }
 
-    public void setTop(float top) {
-        pos.y = top - halfHeight;
+    public void setTop( float top ) {
+        this.pos.y = top - this.halfHeight;
     }
 
-    public void setRight(float right) {
-        pos.x = right - halfWidth;
+    public void setRight( float right ) {
+        this.pos.x = right - this.halfWidth;
     }
 
-    public void setBottom(float bottom) {
-        pos.y = bottom + halfHeight;
+    public void setBottom( float bottom ) {
+        this.pos.y = bottom + this.halfHeight;
     }
 
-    public void setWidth(float width) {
+    public void setWidth( float width ) {
         this.halfWidth = width / 2f;
     }
 
-    public void setHeight(float height) {
+    public void setHeight( float height ) {
         this.halfHeight = height / 2f;
     }
 
-    public void setSize(float width, float height) {
+    public void setSize( float width, float height ) {
         this.halfWidth = width / 2f;
         this.halfHeight = height / 2f;
     }
 
-    public boolean isMe(Vector2 touch) {
+    public boolean isMe( Vector2 touch ) {
         return touch.x >= getLeft() && touch.x <= getRight() && touch.y >= getBottom() && touch.y <= getTop();
     }
 
-    public boolean isOutside(Rect other) {
+    public boolean isOutside( Rect other ) {
         return getLeft() > other.getRight()
                         || getRight() < other.getLeft()
                         || getBottom() > other.getTop()
@@ -113,6 +116,6 @@ public class Rect {
 
     @Override
     public String toString() {
-        return "Rectangle: pos" + pos + " size(" + getWidth() + ", " + getHeight() + ")";
+        return "Rectangle: pos" + this.pos + " size(" + getWidth() + ", " + getHeight() + ")";
     }
 }
