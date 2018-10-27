@@ -3,9 +3,11 @@ package com.mygdx.game.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.base.Base2DScreen;
 import com.mygdx.game.sprite.Background;
+import com.mygdx.game.sprite.Star;
 
 /**
  * MenuScreen - класс для работы с пользовательским меню
@@ -35,12 +37,17 @@ public class MenuScreen extends Base2DScreen {
      */
     private Background background;
 
+    /**
+     *  @access private
+     *  @var TextureAtlas textureAtlas -
+     */
+    private TextureAtlas textureAtlas;
 
     /**
      *  @access private
-     *  @var Vector2 buff - буферный вектор для того чтобы избежать утечек
+     *  @var Star[] stars - массив спрайтов звезд
      */
-    private Vector2 buff;
+    private Star[] stars;
 
     @Override
     public void show() {
