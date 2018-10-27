@@ -4,19 +4,21 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.base.Base2DScreen;
+import com.mygdx.game.math.Rect;
 import com.mygdx.game.sprite.Background;
 import com.mygdx.game.sprite.Star;
 
-/**
- * MenuScreen - класс для работы с пользовательским меню
- *
- * @version 1.0.1
- * @package com.mygdx.game.screen
- * @author  Vasya Brazhnikov
- * @copyright Copyright (c) 2018, Vasya Brazhnikov
- */
+    /**
+     * MenuScreen - класс для работы с пользовательским меню
+     *
+     * @version 1.0.1
+     * @package com.mygdx.game.screen
+     * @author  Vasya Brazhnikov
+     * @copyright Copyright (c) 2018, Vasya Brazhnikov
+     */
 public class MenuScreen extends Base2DScreen {
 
     /**
@@ -53,24 +55,64 @@ public class MenuScreen extends Base2DScreen {
     public void show() {
         super.show();
 
+        this.bgTexture    = new Texture("bg.png" );
+        this.background   = new Background( new TextureRegion( this.bgTexture ) );
+        this.textureAtlas = new TextureAtlas("menuAtlas.tpack" );
+        this.stars        = new Star[STAR_COUNT];
+
+        for ( int i = 0; i < this.stars.length; i++ ) {
+            this.stars[i] = new Star( this.textureAtlas );
+        }
     }
 
     @Override
     public void render( float delta ) {
         super.render(delta);
 
-        Gdx.gl.glClearColor(1, 0, 0, 1 );
+        this.update(delta);
+        this.draw();
+    }
+
+    /**
+     * update -
+     * @param delta
+     */
+    public void update( float delta ) {
+        for ( int i = 0; i < this.stars.length; i++ ) {
+            this.stars[i].update( delta );
+        }
+    }
+
+    /**
+     * draw -
+     */
+    public void draw() {
+        Gdx.gl.glClearColor(0.128f, 0.53f, 0.9f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-
         this.batch.begin();
-        //this.batch.draw( this.img, this.pos.x, this.pos.y, 1.25f, 1.25f );
+        this.background.draw( this.batch );
+
+        for ( int i = 0; i < this.stars.length; i++ ) {
+            this.stars[i].draw( this.batch );
+        }
+
         this.batch.end();
     }
 
     @Override
+    public void resize( Rect worldBounds ) {
+        this.background.resize( worldBounds );
+
+        for ( int i = 0; i < this.stars.length; i++ ) {
+            this.stars[i].resize( worldBounds );
+        }
+    }
+
+    @Override
     public void dispose() {
-        //this.batch.dispose();
+        this.bgTexture.dispose();
+        this.textureAtlas.dispose();
         super.dispose();
     }
 

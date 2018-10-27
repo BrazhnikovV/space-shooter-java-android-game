@@ -53,7 +53,7 @@ public class Star extends Sprite {
     }
 
     /**
-     * checkAndHandleBounds - 
+     * checkAndHandleBounds -
      */
     private void checkAndHandleBounds() {
         if ( getRight() < worldBounds.getLeft()) setLeft( worldBounds.getRight() );

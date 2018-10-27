@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.math.MatrixUtils;
 import com.mygdx.game.math.Rect;
 
-public class Base2DScreen implements Screen, InputProcessor {
+public abstract class Base2DScreen implements Screen, InputProcessor {
 
     /**
      *  @access private
@@ -84,13 +84,16 @@ public class Base2DScreen implements Screen, InputProcessor {
         this.screenBounds.setBottom( 0 );
 
         float aspect = width / (float) height;
-        this.worldBounds.setHeight( 2f );
-        this.worldBounds.setWidth( 2f * aspect );
+        this.worldBounds.setHeight( 1f );
+        this.worldBounds.setWidth( 1f * aspect );
 
         MatrixUtils.calcTransitionMatrix( this.worldToGl, this.worldBounds, this.glBounds );
         this.batch.setProjectionMatrix( this.worldToGl );
         MatrixUtils.calcTransitionMatrix( this.screenToWorld, this.screenBounds, this.worldBounds );
+        resize( this.worldBounds );
     }
+
+    public void resize( Rect worldBounds ) {};
 
     @Override
     public void pause() {
