@@ -9,6 +9,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.base.Base2DScreen;
 import com.mygdx.game.math.Rect;
 import com.mygdx.game.sprite.Background;
+import com.mygdx.game.sprite.BtnExit;
+import com.mygdx.game.sprite.BtnPlay;
 import com.mygdx.game.sprite.Star;
 
     /**
@@ -51,6 +53,18 @@ public class MenuScreen extends Base2DScreen {
      */
     private Star[] stars;
 
+    /**
+     *  @access private
+     *  @var BtnExit btnExit - спрайт кнопки выхода
+     */
+    private BtnExit btnExit;
+
+    /**
+     *  @access private
+     *  @var BtnExit btnPlay - спрайт кнопки play
+     */
+    private BtnPlay btnPlay;
+
     @Override
     public void show() {
         super.show();
@@ -58,8 +72,11 @@ public class MenuScreen extends Base2DScreen {
         this.bgTexture    = new Texture("bg.png" );
         this.background   = new Background( new TextureRegion( this.bgTexture ) );
         this.textureAtlas = new TextureAtlas("menuAtlas.tpack" );
+        this.btnExit      = new BtnExit( this.textureAtlas  );
+        this.btnPlay      = new BtnPlay( this.textureAtlas  );
         this.stars        = new Star[STAR_COUNT];
 
+        // собираем звезды в массив
         for ( int i = 0; i < this.stars.length; i++ ) {
             this.stars[i] = new Star( this.textureAtlas );
         }
@@ -97,16 +114,23 @@ public class MenuScreen extends Base2DScreen {
             this.stars[i].draw( this.batch );
         }
 
+        this.btnExit.draw( this.batch );
+        this.btnPlay.draw( this.batch );
+
         this.batch.end();
     }
 
     @Override
     public void resize( Rect worldBounds ) {
+        System.out.println( "MenuScreen => resize" );
         this.background.resize( worldBounds );
 
         for ( int i = 0; i < this.stars.length; i++ ) {
             this.stars[i].resize( worldBounds );
         }
+
+        this.btnExit.resize( worldBounds );
+        this.btnPlay.resize( worldBounds );
     }
 
     @Override

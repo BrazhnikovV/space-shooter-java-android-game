@@ -162,6 +162,10 @@ public class Rect {
         this.pos.y = bottom + this.halfHeight;
     }
 
+    /**
+     * setWidth -
+     * @param width -
+     */
     public void setWidth( float width ) {
         this.halfWidth = width / 2f;
     }
