@@ -79,6 +79,7 @@ public class BtnExit extends Sprite implements InputProcessor {
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         System.out.println( "BtnExit => touchUp" );
         this.scale = 1f;
+        System.exit(0 );
         return false;
     }
 
