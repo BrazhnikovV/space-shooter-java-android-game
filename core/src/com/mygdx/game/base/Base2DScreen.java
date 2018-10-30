@@ -182,7 +182,7 @@ public abstract class Base2DScreen implements Screen, InputProcessor {
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
-        System.out.println( "mouseMoved" );
+        //System.out.println( "mouseMoved" );
         return false;
     }
 
