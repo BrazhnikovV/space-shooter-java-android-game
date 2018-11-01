@@ -2,6 +2,7 @@ package com.mygdx.game.base;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.math.Rect;
 import com.mygdx.game.utils.Regions;
 
@@ -85,12 +86,6 @@ public class Sprite extends Rect {
     }
 
     /**
-     * resize - - !!!Fixme
-     * @param rect
-     */
-    public void resize ( Rect rect ) {}
-
-    /**
      * setHeightProportion - !!!Fixme
      * @param height
      */
@@ -102,26 +97,90 @@ public class Sprite extends Rect {
     }
 
     /**
+     * resize - - !!!Fixme
+     * @param rect
+     */
+    public void resize ( Rect rect ) {}
+
+    /**
      * update - !!!Fixme
      * @param delta
      */
-    public void update(float delta) {
+    public void update( float delta ) {}
 
+    /**
+     * touchDown - !!!Fixme
+     * @param touch -
+     * @param pointer -
+     * @return boolean
+     */
+    public boolean touchDown( Vector2 touch, int pointer ) {
+        return false;
+    }
+
+    /**
+     * touchUp - !!!Fixme
+     * @param touch -
+     * @param pointer -
+     * @return boolean
+     */
+    public boolean touchUp( Vector2 touch, int pointer ) {
+        return false;
     }
 
     /**
      * setAngel - !!!Fixme
      * @param angel
      */
-    public void setAngel(float angel) {
+    public void setAngel( float angel ) {
         this.angel = angel;
     }
 
     /**
      * getAngel - !!!Fixme
-     * @return
+     * @return float
      */
     public float getAngel() {
         return angel;
+    }
+
+    /**
+     * getScale - !!!Fixme
+     * @return float
+     */
+    public float getScale() {
+        return this.scale;
+    }
+
+    /**
+     * setScale - !!!Fixme
+     * @return float
+     */
+    public void setScale( float scale ) {
+        this.scale = scale;
+    }
+
+    /**
+     * destroy - !!!Fixme
+     * @return void
+     */
+    public void destroy() {
+        this.isDestroyed = true;
+    }
+
+    /**
+     * flushDestroy - !!!Fixme
+     * @return void
+     */
+    public void flushDestroy() {
+        this.isDestroyed = false;
+    }
+
+    /**
+     * isDestroyed - !!!Fixme
+     * @return boolean
+     */
+    public boolean isDestroyed() {
+        return this.isDestroyed;
     }
 }

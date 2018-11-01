@@ -3,6 +3,14 @@ package com.mygdx.game.base;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
+/**
+ * ScaledTouchUpButton -
+ *
+ * @version 1.0.1
+ * @package com.mygdx.game.base
+ * @author  Vasya Brazhnikov
+ * @copyright Copyright (c) 2018, Vasya Brazhnikov
+ */
 public class ScaledTouchUpButton extends Sprite {
 
     private static final float PRESS_SCALE = 0.9f;
@@ -14,7 +22,7 @@ public class ScaledTouchUpButton extends Sprite {
     public ScaledTouchUpButton(TextureRegion region, ActionListener actionListener) {
         super(region);
         this.actionListener = actionListener;
-        setHeighProportion(0.15f);
+        setHeightProportion(0.15f);
     }
 
     @Override
