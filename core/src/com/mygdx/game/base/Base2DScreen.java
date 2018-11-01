@@ -102,7 +102,7 @@ public abstract class Base2DScreen implements Screen, InputProcessor {
     }
 
     /**
-     * resize - 
+     * resize -
      * @param worldBounds - границ мира
      * @return
      */
