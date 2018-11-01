@@ -70,6 +70,9 @@ public class Sprite extends Rect {
         this.regions = Regions.split(region, rows, cols, frames);
     }
 
+    public Sprite() {
+    }
+
     /**
      * draw - !!!Fixme
      * @param batch
