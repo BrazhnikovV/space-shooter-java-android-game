@@ -10,6 +10,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.math.MatrixUtils;
 import com.mygdx.game.math.Rect;
 
+/**
+ * Base2DScreen - Базовый класс экрана
+ *
+ * @version 1.0.1
+ * @package com.mygdx.game.sprite
+ * @author  Vasya Brazhnikov
+ * @copyright Copyright (c) 2018, Vasya Brazhnikov
+ */
 public abstract class Base2DScreen implements Screen, InputProcessor {
 
     /**
@@ -70,12 +78,12 @@ public abstract class Base2DScreen implements Screen, InputProcessor {
     }
 
     @Override
-    public void render(float delta) {
+    public void render( float delta ) {
 
     }
 
     @Override
-    public void resize(int width, int height) {
+    public void resize( int width, int height ) {
 
         System.out.println( "resize w = " + width + " h = " + height );
 
@@ -93,6 +101,11 @@ public abstract class Base2DScreen implements Screen, InputProcessor {
         resize( this.worldBounds );
     }
 
+    /**
+     * resize - 
+     * @param worldBounds - границ мира
+     * @return
+     */
     public void resize( Rect worldBounds ) {};
 
     @Override
@@ -134,17 +147,17 @@ public abstract class Base2DScreen implements Screen, InputProcessor {
     }
 
     @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+    public boolean touchDown( int screenX, int screenY, int pointer, int button ) {
         System.out.println( "touchDown" );
 
-        touch.set( screenX, screenBounds.getHeight() - screenY).mul( screenToWorld );
+        this.touch.set( screenX, this.screenBounds.getHeight() - screenY).mul( this.screenToWorld );
         touchDown( this.touch, pointer );
 
         return false;
     }
 
     /**
-     * touchDown -
+     * touchDown - перехват события кнопка мыши нажата, тач
      * @param touch
      * @param pointer
      * @return
@@ -155,15 +168,15 @@ public abstract class Base2DScreen implements Screen, InputProcessor {
     }
 
     @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+    public boolean touchUp( int screenX, int screenY, int pointer, int button ) {
         System.out.println( "touchUp" );
-        this.touch.set(screenX, this.screenBounds.getHeight() - screenY).mul( this.screenToWorld );
+        this.touch.set( screenX, this.screenBounds.getHeight() - screenY).mul( this.screenToWorld );
         touchUp( this.touch, pointer );
         return false;
     }
 
     /**
-     * touchUp -
+     * touchUp - перехват события кнопка мыши отпущена, тач отпущен
      * @param touch
      * @param pointer
      * @return
@@ -175,19 +188,19 @@ public abstract class Base2DScreen implements Screen, InputProcessor {
     }
 
     @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
+    public boolean touchDragged( int screenX, int screenY, int pointer ) {
         System.out.println( "touchDragged" );
         return false;
     }
 
     @Override
-    public boolean mouseMoved(int screenX, int screenY) {
+    public boolean mouseMoved( int screenX, int screenY ) {
         //System.out.println( "mouseMoved" );
         return false;
     }
 
     @Override
-    public boolean scrolled(int amount) {
+    public boolean scrolled( int amount ) {
         System.out.println( "scrolled" );
         return false;
     }
