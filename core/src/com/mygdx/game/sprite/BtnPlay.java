@@ -35,7 +35,7 @@ public class BtnPlay extends Sprite implements InputProcessor {
      */
     public BtnPlay( TextureAtlas atlas ) {
         super( atlas.findRegion("btPlay" ) );
-        setHeighProportion( 0.1f );
+        setHeightProportion( 0.1f );
         Gdx.input.setInputProcessor( this );
     }
 

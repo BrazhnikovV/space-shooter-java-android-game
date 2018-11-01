@@ -60,9 +60,12 @@ public class Sprite extends Rect {
 
     /**
      * Constructor -
-     * @param region
+     * @param region -
+     * @param rows -
+     * @param cols -
+     * @param frames -
      */
-    public Sprite(TextureRegion region, int rows, int cols, int frames) {
+    public Sprite( TextureRegion region, int rows, int cols, int frames ) {
         this.regions = Regions.split(region, rows, cols, frames);
     }
 
@@ -72,12 +75,12 @@ public class Sprite extends Rect {
      */
     public void draw( SpriteBatch batch ) {
         batch.draw(
-            this.regions[this.frame],
-            getLeft(), getBottom(),
-            this.halfWidth, this.halfHeight,
-            getWidth(), getHeight(),
-            this.scale, this.scale,
-            this.angel
+            this.regions[this.frame],       // текущий регион
+            getLeft(), getBottom(),         // точка отрисовки
+            this.halfWidth, this.halfHeight,// точка вращения
+            getWidth(), getHeight(),        // ширина и высота
+            this.scale, this.scale,         // масштаб по x и y
+            this.angel                      // угол вращения
         );
     }
 
@@ -85,15 +88,13 @@ public class Sprite extends Rect {
      * resize - - !!!Fixme
      * @param rect
      */
-    public void resize ( Rect rect ) {
-
-    }
+    public void resize ( Rect rect ) {}
 
     /**
-     * setHeighProportion - !!!Fixme
+     * setHeightProportion - !!!Fixme
      * @param height
      */
-    public void setHeighProportion ( float height ) {
+    public void setHeightProportion ( float height ) {
         setHeight( height );
 
         float aspect  = regions[frame].getRegionWidth() / (float) regions[frame].getRegionHeight();
