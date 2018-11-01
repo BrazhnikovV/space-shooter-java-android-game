@@ -3,6 +3,7 @@ package com.mygdx.game.base;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygdx.game.math.Rect;
+import com.mygdx.game.utils.Regions;
 
 /**
  * Sprite -
@@ -39,6 +40,12 @@ public class Sprite extends Rect {
     protected int frame;
 
     /**
+     *  @access protected
+     *  @var boolean isDestroyed -
+     */
+    protected boolean isDestroyed;
+
+    /**
      * Constructor -
      * @param region
      */
@@ -49,6 +56,14 @@ public class Sprite extends Rect {
 
         this.regions = new TextureRegion[1];
         regions[0] = region;
+    }
+
+    /**
+     * Constructor -
+     * @param region
+     */
+    public Sprite(TextureRegion region, int rows, int cols, int frames) {
+        this.regions = Regions.split(region, rows, cols, frames);
     }
 
     /**
