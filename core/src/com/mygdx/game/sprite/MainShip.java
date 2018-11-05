@@ -43,6 +43,18 @@ public class MainShip extends Sprite {
 
     /**
      *  @access private
+     *  @var boolean touchPressedRight - флаг тача
+     */
+    private boolean touchPressedRight;
+
+    /**
+     *  @access private
+     *  @var boolean touchPressedLeft - флаг тача
+     */
+    private boolean touchPressedLeft;
+
+    /**
+     *  @access private
      *  @var BulletPool bulletPool - очередь пуль
      */
     private BulletPool bulletPool;
@@ -80,6 +92,14 @@ public class MainShip extends Sprite {
         float rightDelimeter = this.worldBounds.getRight() - this.getWidth() / 2;
         float leftDelimeter  = this.worldBounds.getLeft()  + this.getWidth() / 2;
 
+        if ( rightDelimeter > this.pos.x && this.touchPressedRight ) {
+            this.pos.mulAdd( v, delta );
+        }
+
+        if ( leftDelimeter < this.pos.x && this.touchPressedLeft ) {
+            this.pos.mulAdd( v, delta );
+        }
+
         if ( rightDelimeter > this.pos.x && this.pressedRight ) {
             this.pos.mulAdd( v, delta );
         }
@@ -95,14 +115,39 @@ public class MainShip extends Sprite {
         setBottom( worldBounds.getBottom() + 0.05f );
     }
 
-    @Override
+    /**
+     * touchDown - перехватывает событие
+     * @param touch -
+     * @param pointer -
+     * @return boolean
+     */
     public boolean touchDown( Vector2 touch, int pointer ) {
-        return super.touchDown( touch, pointer );
+        System.out.println( "MainShip => touchDown" );
+
+        if ( touch.x > 0 ) {
+            this.touchPressedLeft  = false;
+            this.touchPressedRight = true;
+            this.moveRight();
+        }
+        else {
+            this.touchPressedLeft  = true;
+            this.touchPressedRight = false;
+            this.moveLeft();
+        }
+        return false;
     }
 
-    @Override
+    /**
+     * touchUp - перехватывает событие
+     * @param touch -
+     * @param pointer -
+     * @return boolean
+     */
     public boolean touchUp( Vector2 touch, int pointer ) {
-        return super.touchUp( touch, pointer );
+        System.out.println( "MainShip => touchUp" );
+        this.touchPressedLeft = false;
+        this.touchPressedRight = false;
+        return false;
     }
 
     /**
@@ -138,7 +183,7 @@ public class MainShip extends Sprite {
             case Input.Keys.A:
             case Input.Keys.LEFT:
                 this.pressedLeft = false;
-                if ( pressedRight ) {
+                if ( this.pressedRight ) {
                     this.moveRight();
                 }
                 else {
@@ -166,14 +211,14 @@ public class MainShip extends Sprite {
      * moveRight
      */
     private void moveRight() {
-        v.set( v0 );
+        this.v.set( v0 );
     }
 
     /**
      * moveLeft
      */
     private void moveLeft() {
-        v.set( v0 ).rotate( 180 );
+        this.v.set( v0 ).rotate( 180 );
     }
 
     /**
