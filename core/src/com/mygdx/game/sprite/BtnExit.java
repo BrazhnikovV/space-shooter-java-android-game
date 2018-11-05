@@ -16,7 +16,7 @@ import com.mygdx.game.math.Rnd;
  * @author  Vasya Brazhnikov
  * @copyright Copyright (c) 2018, Vasya Brazhnikov
  */
-public class BtnExit extends Sprite implements InputProcessor {
+public class BtnExit extends Sprite {
 
     /**
      *  @access private
@@ -37,7 +37,6 @@ public class BtnExit extends Sprite implements InputProcessor {
     public BtnExit( TextureAtlas atlas ) {
         super( atlas.findRegion("btExit" ) );
         setHeightProportion( 0.1f );
-        Gdx.input.setInputProcessor( this );
     }
 
     @Override
@@ -49,52 +48,8 @@ public class BtnExit extends Sprite implements InputProcessor {
     public void resize( Rect worldBounds ) {
         System.out.println( "BtnExit => resize" );
 
-        pos.set(-0.3f, -0.425f);
-    }
-
-
-    @Override
-    public boolean keyDown(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        System.out.println( "BtnExit => touchDown" );
-        this.scale = 0.8f;
-        return false;
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        System.out.println( "BtnExit => touchUp" );
-        this.scale = 1f;
-        System.exit(0 );
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(int amount) {
-        return false;
+        float offset = 0.01f;
+        setBottom( worldBounds.getBottom() + offset );
+        setRight( worldBounds.getRight() - offset );
     }
 }
