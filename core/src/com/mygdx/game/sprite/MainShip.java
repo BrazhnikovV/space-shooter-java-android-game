@@ -49,7 +49,7 @@ public class MainShip extends Sprite {
 
     /**
      *  @access private
-     *  @var TextureAtlas atlas -
+     *  @var TextureAtlas atlas - атлас текстур игровых объектов сцены
      */
     private TextureAtlas atlas;
 
@@ -73,24 +73,36 @@ public class MainShip extends Sprite {
     }
 
     @Override
-    public void update(float delta) {
-        pos.mulAdd(v, delta);
+    public void update( float delta ) {
+
+        // вычисляем точки для ограничения области
+        // передвижение корабля в рамках игрового мира
+        float rightDelimeter = this.worldBounds.getRight() - this.getWidth() / 2;
+        float leftDelimeter  = this.worldBounds.getLeft()  + this.getWidth() / 2;
+
+        if ( rightDelimeter > this.pos.x && this.pressedRight ) {
+            this.pos.mulAdd( v, delta );
+        }
+
+        if ( leftDelimeter < this.pos.x && this.pressedLeft ) {
+            this.pos.mulAdd( v, delta );
+        }
     }
 
     @Override
-    public void resize(Rect worldBounds) {
+    public void resize( Rect worldBounds ) {
         this.worldBounds = worldBounds;
-        setBottom(worldBounds.getBottom() + 0.05f);
+        setBottom( worldBounds.getBottom() + 0.05f );
     }
 
     @Override
-    public boolean touchDown(Vector2 touch, int pointer) {
-        return super.touchDown(touch, pointer);
+    public boolean touchDown( Vector2 touch, int pointer ) {
+        return super.touchDown( touch, pointer );
     }
 
     @Override
-    public boolean touchUp(Vector2 touch, int pointer) {
-        return super.touchUp(touch, pointer);
+    public boolean touchUp( Vector2 touch, int pointer ) {
+        return super.touchUp( touch, pointer );
     }
 
     /**
