@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.base.ActionListener;
 import com.mygdx.game.base.Base2DScreen;
+import com.mygdx.game.base.Multimedia;
 import com.mygdx.game.math.Rect;
 import com.mygdx.game.sprite.Background;
 import com.mygdx.game.sprite.BtnExit;
@@ -74,12 +75,19 @@ public class MenuScreen extends Base2DScreen implements ActionListener {
     private Game game;
 
     /**
+     *  @access private
+     *  @var Multimedia multimedia -
+     */
+    private Multimedia multimedia = new Multimedia();
+
+    /**
      * Constructor -
      * @param game -
      */
     public MenuScreen( Game game ) {
         super();
         this.game = game;
+        this.multimedia.playMenuMusic();
     }
 
     @Override
@@ -181,5 +189,11 @@ public class MenuScreen extends Base2DScreen implements ActionListener {
         else if ( src == this.btnPlay ) {
             this.game.setScreen( new GameScreen() );
         }
+    }
+
+    @Override
+    public void hide() {
+        this.multimedia.stopMenuMusic();
+        super.hide();
     }
 }

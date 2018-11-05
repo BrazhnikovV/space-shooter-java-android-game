@@ -3,6 +3,7 @@ package com.mygdx.game.sprite;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.base.Multimedia;
 import com.mygdx.game.base.Sprite;
 import com.mygdx.game.math.Rect;
 import com.mygdx.game.pool.BulletPool;
@@ -70,6 +71,12 @@ public class MainShip extends Sprite {
      *  @var Rect worldBounds - границы игрового мира
      */
     private Rect worldBounds;
+
+    /**
+     *  @access private
+     *  @var Multimedia multimedia -
+     */
+    private Multimedia multimedia = new Multimedia();
 
     /**
      * Constructor -
@@ -168,6 +175,10 @@ public class MainShip extends Sprite {
                 this.pressedRight = true;
                 moveRight();
                 break;
+            case Input.Keys.UP:
+                this.multimedia.playMachineGunQueue();
+                this.shoot();
+                break;
         }
         return false;
     }
@@ -201,7 +212,7 @@ public class MainShip extends Sprite {
                 }
                 break;
             case Input.Keys.UP:
-                this.shoot();
+                this.multimedia.stopMachineGunQueue();
                 break;
         }
         return false;
