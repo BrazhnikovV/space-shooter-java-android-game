@@ -30,8 +30,7 @@ public class BtnPlay extends ScaledTouchUpButton {
 
     /**
      * Constructor
-     * @param atlas -
-     * @param actionListener -
+     * @param atlas
      */
     public BtnPlay( TextureAtlas atlas, ActionListener actionListener ) {
         super(atlas.findRegion("btPlay"), actionListener);

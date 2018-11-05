@@ -15,14 +15,14 @@ import com.mygdx.game.sprite.BtnExit;
 import com.mygdx.game.sprite.BtnPlay;
 import com.mygdx.game.sprite.Star;
 
-    /**
-     * MenuScreen - класс для работы с пользовательским меню
-     *
-     * @version 1.0.1
-     * @package com.mygdx.game.screen
-     * @author  Vasya Brazhnikov
-     * @copyright Copyright (c) 2018, Vasya Brazhnikov
-     */
+/**
+ * MenuScreen - класс для работы с пользовательским меню
+ *
+ * @version 1.0.1
+ * @package com.mygdx.game.screen
+ * @author  Vasya Brazhnikov
+ * @copyright Copyright (c) 2018, Vasya Brazhnikov
+ */
 public class MenuScreen extends Base2DScreen implements ActionListener {
 
     /**
@@ -170,7 +170,7 @@ public class MenuScreen extends Base2DScreen implements ActionListener {
             Gdx.app.exit();
         }
         else if ( src == this.btnPlay ) {
-            game.setScreen(new GameScreen());
+            game.setScreen( new GameScreen() );
         }
     }
 }
