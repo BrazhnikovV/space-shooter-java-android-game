@@ -19,33 +19,40 @@ public class ScaledTouchUpButton extends Sprite {
     private boolean isPressed;
     private ActionListener actionListener;
 
-    public ScaledTouchUpButton(TextureRegion region, ActionListener actionListener) {
+    public ScaledTouchUpButton( TextureRegion region, ActionListener actionListener ) {
         super(region);
         this.actionListener = actionListener;
         setHeightProportion(0.15f);
     }
 
     @Override
-    public boolean touchDown(Vector2 touch, int pointer) {
-        if (isPressed || !isMe(touch)) {
+    public boolean touchDown( Vector2 touch, int pointer ) {
+
+        if ( isPressed || !isMe( touch ) ) {
             return false;
         }
-        this.pointer = pointer;
-        this.scale = PRESS_SCALE;
+
+        this.pointer   = pointer;
+        this.scale     = PRESS_SCALE;
         this.isPressed = true;
+
         return false;
     }
 
     @Override
-    public boolean touchUp(Vector2 touch, int pointer) {
-        if (this.pointer != pointer || !isPressed) {
+    public boolean touchUp( Vector2 touch, int pointer ) {
+
+        if ( this.pointer != pointer || !isPressed ) {
             return false;
         }
-        if (isMe(touch)) {
-            actionListener.actionPerformed(this);
+
+        if ( isMe( touch ) ) {
+            this.actionListener.actionPerformed(this );
         }
-        isPressed = false;
-        scale = 1f;
+
+        this.isPressed = false;
+        this.scale     = 1f;
+
         return false;
     }
 }

@@ -1,9 +1,9 @@
 package com.mygdx.game.sprite;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.game.base.Sprite;
+import com.mygdx.game.base.ActionListener;
+import com.mygdx.game.base.ScaledTouchUpButton;
 import com.mygdx.game.math.Rect;
 
 /**
@@ -14,7 +14,7 @@ import com.mygdx.game.math.Rect;
  * @author  Vasya Brazhnikov
  * @copyright Copyright (c) 2018, Vasya Brazhnikov
  */
-public class BtnPlay extends Sprite {
+public class BtnPlay extends ScaledTouchUpButton {
 
     /**
      *  @access private
@@ -30,10 +30,11 @@ public class BtnPlay extends Sprite {
 
     /**
      * Constructor
-     * @param atlas
+     * @param atlas -
+     * @param actionListener -
      */
-    public BtnPlay( TextureAtlas atlas ) {
-        super( atlas.findRegion("btPlay" ) );
+    public BtnPlay( TextureAtlas atlas, ActionListener actionListener ) {
+        super(atlas.findRegion("btPlay"), actionListener);
         setHeightProportion( 0.1f );
     }
 

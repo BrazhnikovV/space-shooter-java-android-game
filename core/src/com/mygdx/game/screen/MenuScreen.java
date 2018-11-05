@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.base.ActionListener;
 import com.mygdx.game.base.Base2DScreen;
 import com.mygdx.game.math.Rect;
 import com.mygdx.game.sprite.Background;
@@ -21,7 +22,7 @@ import com.mygdx.game.sprite.Star;
      * @author  Vasya Brazhnikov
      * @copyright Copyright (c) 2018, Vasya Brazhnikov
      */
-public class MenuScreen extends Base2DScreen {
+public class MenuScreen extends Base2DScreen implements ActionListener {
 
     /**
      *  @access private
@@ -72,8 +73,8 @@ public class MenuScreen extends Base2DScreen {
         this.bgTexture    = new Texture("bg.png" );
         this.background   = new Background( new TextureRegion( this.bgTexture ) );
         this.textureAtlas = new TextureAtlas("menuAtlas.tpack" );
-        this.btnExit      = new BtnExit( this.textureAtlas  );
-        this.btnPlay      = new BtnPlay( this.textureAtlas  );
+        this.btnExit      = new BtnExit( this.textureAtlas, this  );
+        this.btnPlay      = new BtnPlay( this.textureAtlas, this  );
         this.stars        = new Star[STAR_COUNT];
 
         // собираем звезды в массив
@@ -144,5 +145,15 @@ public class MenuScreen extends Base2DScreen {
     public boolean touchDown( Vector2 touch, int pointer ) {
 
         return false;
+    }
+
+    @Override
+    public void actionPerformed( Object src ) {
+        if ( src == this.btnExit ) {
+            Gdx.app.exit();
+        }
+        else if ( src == this.btnPlay ) {
+            game.setScreen(new GameScreen());
+        }
     }
 }
