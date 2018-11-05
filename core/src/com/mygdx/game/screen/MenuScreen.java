@@ -1,5 +1,6 @@
 package com.mygdx.game.screen;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -65,6 +66,12 @@ public class MenuScreen extends Base2DScreen implements ActionListener {
      *  @var BtnExit btnPlay - спрайт кнопки play
      */
     private BtnPlay btnPlay;
+
+    /**
+     *  @access private
+     *  @var Game game -
+     */
+    private Game game;
 
     @Override
     public void show() {
@@ -144,7 +151,17 @@ public class MenuScreen extends Base2DScreen implements ActionListener {
     @Override
     public boolean touchDown( Vector2 touch, int pointer ) {
 
+        this.btnExit.touchDown( touch, pointer );
+        this.btnPlay.touchDown( touch, pointer );
+
         return false;
+    }
+
+    @Override
+    public boolean touchUp( Vector2 touch, int pointer ) {
+        this.btnExit.touchUp( touch, pointer );
+        this.btnPlay.touchUp( touch, pointer );
+        return super.touchUp( touch, pointer );
     }
 
     @Override
