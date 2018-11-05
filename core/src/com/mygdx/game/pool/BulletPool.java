@@ -15,6 +15,6 @@ public class BulletPool extends SpritesPool<Bullet> {
 
     @Override
     protected Bullet newObject() {
-        return null;
+        return new Bullet();
     }
 }

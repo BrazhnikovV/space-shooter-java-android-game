@@ -127,24 +127,24 @@ public class MainShip extends Sprite {
             case Input.Keys.LEFT:
                 this.pressedLeft = false;
                 if ( pressedRight ) {
-                    moveRight();
+                    this.moveRight();
                 }
                 else {
-                    stop();
+                    this.stop();
                 }
                 break;
             case Input.Keys.D:
             case Input.Keys.RIGHT:
                 this.pressedRight = false;
                 if ( this.pressedLeft ) {
-                    moveLeft();
+                    this.moveLeft();
                 }
                 else {
-                    stop();
+                    this.stop();
                 }
                 break;
             case Input.Keys.UP:
-                shoot();
+                this.shoot();
                 break;
         }
         return false;
@@ -161,7 +161,7 @@ public class MainShip extends Sprite {
      * moveLeft
      */
     private void moveLeft() {
-        v.set(v0).rotate( 180 );
+        v.set( v0 ).rotate( 180 );
     }
 
     /**
