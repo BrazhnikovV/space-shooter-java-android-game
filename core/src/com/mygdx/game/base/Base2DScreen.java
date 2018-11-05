@@ -78,9 +78,7 @@ public abstract class Base2DScreen implements Screen, InputProcessor {
     }
 
     @Override
-    public void render( float delta ) {
-
-    }
+    public void render( float delta ) {}
 
     @Override
     public void resize( int width, int height ) {

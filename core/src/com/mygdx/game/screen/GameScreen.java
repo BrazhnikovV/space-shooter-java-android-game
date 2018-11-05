@@ -69,9 +69,9 @@ public class GameScreen extends Base2DScreen {
     public void show() {
         super.show();
 
-        this.bgTexture    = new Texture("bg.png");
-        this.background   = new Background(new TextureRegion(bgTexture));
-        this.textureAtlas = new TextureAtlas("mainAtlas.tpack");
+        this.bgTexture    = new Texture("bg.png" );
+        this.background   = new Background(new TextureRegion( this.bgTexture ) );
+        this.textureAtlas = new TextureAtlas("mainAtlas.tpack" );
 
         this.stars = new Star[this.STAR_COUNT];
         for ( int i = 0; i < this.stars.length; i++ ) {
@@ -83,7 +83,7 @@ public class GameScreen extends Base2DScreen {
     }
 
     @Override
-    public void render(float delta) {
+    public void render( float delta ) {
         super.render(delta);
         update(delta);
         checkCollisions();

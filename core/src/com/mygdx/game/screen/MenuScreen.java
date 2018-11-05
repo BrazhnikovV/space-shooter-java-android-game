@@ -73,6 +73,15 @@ public class MenuScreen extends Base2DScreen implements ActionListener {
      */
     private Game game;
 
+    /**
+     * Constructor -
+     * @param game -
+     */
+    public MenuScreen( Game game ) {
+        super();
+        this.game = game;
+    }
+
     @Override
     public void show() {
         super.show();
@@ -170,7 +179,7 @@ public class MenuScreen extends Base2DScreen implements ActionListener {
             Gdx.app.exit();
         }
         else if ( src == this.btnPlay ) {
-            game.setScreen( new GameScreen() );
+            this.game.setScreen( new GameScreen() );
         }
     }
 }

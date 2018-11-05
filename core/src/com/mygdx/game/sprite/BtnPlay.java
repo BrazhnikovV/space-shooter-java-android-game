@@ -33,14 +33,12 @@ public class BtnPlay extends ScaledTouchUpButton {
      * @param atlas
      */
     public BtnPlay( TextureAtlas atlas, ActionListener actionListener ) {
-        super(atlas.findRegion("btPlay"), actionListener);
+        super( atlas.findRegion("btPlay" ), actionListener );
         setHeightProportion( 0.1f );
     }
 
     @Override
-    public void update( float delta ) {
-
-    }
+    public void update( float delta ) {}
 
     @Override
     public void resize( Rect worldBounds ) {
