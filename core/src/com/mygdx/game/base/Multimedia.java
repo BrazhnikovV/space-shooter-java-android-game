@@ -57,7 +57,7 @@ public class Multimedia {
      * playMachineGunQueue - начать воспроизведение
      */
     public void playMachineGunQueue() {
-        this.idMachineGunQueue = this.machineGunQueue.play(0.25f );
+        this.idMachineGunQueue = this.machineGunQueue.play(0.05f );
     }
 
     /**
