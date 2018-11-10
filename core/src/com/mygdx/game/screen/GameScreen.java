@@ -9,9 +9,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.base.Base2DScreen;
 import com.mygdx.game.math.Rect;
 import com.mygdx.game.pool.BulletPool;
+import com.mygdx.game.pool.EnemyPool;
 import com.mygdx.game.sprite.Background;
 import com.mygdx.game.sprite.MainShip;
 import com.mygdx.game.sprite.Star;
+import com.mygdx.game.utils.EnemiesEmmiter;
 
 /**
  * GameScreen - класс игровой сцены
@@ -65,6 +67,9 @@ public class GameScreen extends Base2DScreen {
      */
     private BulletPool bulletPool;
 
+    private EnemyPool enemyPool;
+    private EnemiesEmmiter enemiesEmmiter;
+
     @Override
     public void show() {
         super.show();
@@ -80,6 +85,9 @@ public class GameScreen extends Base2DScreen {
 
         this.bulletPool = new BulletPool();
         this.mainShip   = new MainShip( this.textureAtlas, this.bulletPool );
+
+        this.enemyPool = new EnemyPool( this.bulletPool, this.worldBounds );
+        this.enemiesEmmiter = new EnemiesEmmiter( this.enemyPool, this.worldBounds, textureAtlas);
     }
 
     @Override

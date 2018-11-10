@@ -36,7 +36,7 @@ public abstract class Base2DScreen implements Screen, InputProcessor {
      *  @access private
      *  @var Rect worldBounds - границы проекции мировых координат
      */
-    private Rect worldBounds;
+    protected Rect worldBounds;
 
     /**
      *  @access private
