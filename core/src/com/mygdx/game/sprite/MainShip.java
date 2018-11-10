@@ -134,7 +134,7 @@ public class MainShip extends Ship {
      */
     public boolean touchUp( Vector2 touch, int pointer ) {
         System.out.println( "MainShip => touchUp" );
-        this.touchPressedLeft = false;
+        this.touchPressedLeft  = false;
         this.touchPressedRight = false;
         return false;
     }

@@ -10,6 +10,7 @@ import com.mygdx.game.base.Base2DScreen;
 import com.mygdx.game.math.Rect;
 import com.mygdx.game.pool.BulletPool;
 import com.mygdx.game.pool.EnemyPool;
+import com.mygdx.game.pool.ExplosionPool;
 import com.mygdx.game.sprite.Background;
 import com.mygdx.game.sprite.MainShip;
 import com.mygdx.game.sprite.Star;
@@ -69,6 +70,7 @@ public class GameScreen extends Base2DScreen {
 
     private EnemyPool enemyPool;
     private EnemiesEmmiter enemiesEmmiter;
+    private ExplosionPool explosionPool;
 
     @Override
     public void show() {
@@ -83,17 +85,18 @@ public class GameScreen extends Base2DScreen {
             this.stars[i] = new Star( this.textureAtlas );
         }
 
+        this.explosionPool = new ExplosionPool( this.textureAtlas );
         this.bulletPool = new BulletPool();
         this.mainShip   = new MainShip( this.textureAtlas, this.bulletPool );
 
-        this.enemyPool = new EnemyPool( this.bulletPool, this.worldBounds );
+        this.enemyPool = new EnemyPool( this.bulletPool, this.explosionPool, this.worldBounds );
         this.enemiesEmmiter = new EnemiesEmmiter( this.enemyPool, this.worldBounds, textureAtlas);
     }
 
     @Override
     public void render( float delta ) {
-        super.render(delta);
-        update(delta);
+        super.render( delta );
+        update( delta );
         checkCollisions();
         deleteAllDestroyed();
         draw();
@@ -109,8 +112,11 @@ public class GameScreen extends Base2DScreen {
             this.stars[i].update( delta );
         }
 
-        this.mainShip.update( delta );
-        this.bulletPool.updateActiveObjects( delta );
+        this.mainShip.update(delta);
+        this.bulletPool.updateActiveObjects(delta);
+        this.enemyPool.updateActiveObjects(delta);
+        this.explosionPool.updateActiveObjects(delta);
+        this.enemiesEmmiter.generate(delta);
     }
 
     /**
@@ -122,7 +128,9 @@ public class GameScreen extends Base2DScreen {
      * deleteAllDestroyed -
      */
     public void deleteAllDestroyed() {
-        bulletPool.freeAllDestroyedActiveObjects();
+        this.bulletPool.freeAllDestroyedActiveObjects();
+        this.enemyPool.freeAllDestroyedActiveObjects();
+        this.explosionPool.freeAllDestroyedActiveObjects();
     }
 
     /**
@@ -142,6 +150,8 @@ public class GameScreen extends Base2DScreen {
 
         this.mainShip.draw( this.batch );
         this.bulletPool.drawActiveObjects( this.batch );
+        this.enemyPool.drawActiveObjects( this.batch );
+        this.explosionPool.drawActiveObjects( this.batch );
         this.batch.end();
     }
 

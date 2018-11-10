@@ -21,6 +21,12 @@ public class EnemyPool extends SpritesPool<EnemyShip> {
 
     /**
      *  @access private
+     *  @var ExplosionPool explosionPool -
+     */
+    private ExplosionPool explosionPool;
+
+    /**
+     *  @access private
      *  @var Multimedia shootSound -
      */
     private Multimedia shootSound;
@@ -28,15 +34,18 @@ public class EnemyPool extends SpritesPool<EnemyShip> {
     /**
      * Constructor -
      * @param bulletPool - пул пуль
+     * @param explosionPool -
      * @param worldBounds - границы игрового мира
      */
-    public EnemyPool( BulletPool bulletPool, Rect worldBounds  ) {
+    public EnemyPool( BulletPool bulletPool, ExplosionPool explosionPool,  Rect worldBounds  ) {
         this.bulletPool = bulletPool;
         this.worldBounds = worldBounds;
+        this.explosionPool = explosionPool;
     }
 
     @Override
     protected EnemyShip newObject() {
-        return new EnemyShip( this.bulletPool, this.worldBounds );
+
+        return new EnemyShip( this.bulletPool, this.explosionPool, this.worldBounds );
     }
 }

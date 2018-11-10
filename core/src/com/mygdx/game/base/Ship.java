@@ -4,7 +4,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.math.Rect;
 import com.mygdx.game.pool.BulletPool;
+import com.mygdx.game.pool.ExplosionPool;
 import com.mygdx.game.sprite.Bullet;
+import com.mygdx.game.sprite.Explosion;
 
 public class Ship extends Sprite {
 
@@ -19,6 +21,12 @@ public class Ship extends Sprite {
      *  @var BulletPool bulletPool -
      */
     protected BulletPool bulletPool;
+
+    /**
+     *  @access protected
+     *  @var ExplosionPool explosionPool -
+     */
+    protected ExplosionPool explosionPool;
 
     /**
      *  @access protected
@@ -85,10 +93,10 @@ public class Ship extends Sprite {
         super( region, rows, cols, frames );
     }
 
-    public Ship() {
-
-    }
-
+    /**
+     * Constructor -
+     */
+    public Ship() {}
 
     @Override
     public void resize( Rect worldBounds ) {
@@ -101,5 +109,13 @@ public class Ship extends Sprite {
     protected void shoot() {
         Bullet bullet = this.bulletPool.obtain();
         bullet.set(this, this.bulletRegion, this.pos, this.bulletV, this.bulletHeight, this.worldBounds, this.bulletDamage );
+    }
+
+    /**
+     *
+     */
+    protected void boom() {
+        Explosion explosion = this.explosionPool.obtain();
+        explosion.set( getHeight(), this.pos);
     }
 }

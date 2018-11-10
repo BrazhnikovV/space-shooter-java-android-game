@@ -76,7 +76,6 @@ public abstract class SpritesPool<T extends Sprite> {
     public void updateActiveObjects( float delta ) {
 
         for ( int i = 0; i < this.activeObjects.size(); i++ ) {
-
             Sprite sprite = this.activeObjects.get( i );
             if ( !sprite.isDestroyed() ) {
                 sprite.update( delta );

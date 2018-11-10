@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.base.Ship;
 import com.mygdx.game.math.Rect;
 import com.mygdx.game.pool.BulletPool;
+import com.mygdx.game.pool.ExplosionPool;
 
 public class EnemyShip extends Ship {
 
@@ -14,22 +15,48 @@ public class EnemyShip extends Ship {
      */
     private Vector2 v0 = new Vector2();
 
+    private enum State { DESCENT, FIGHT }
+
+    private State state = State.FIGHT;
+    private Vector2 descentV = new Vector2(0, -0.15f );
+
     /**
      * Constructor -
      * @param bulletPool
      * @param worldBounds
      */
-    public EnemyShip( BulletPool bulletPool, Rect worldBounds ) {
+    public EnemyShip(BulletPool bulletPool, ExplosionPool explosionPool, Rect worldBounds ) {
         super();
-        this.bulletPool  = bulletPool;
-        this.worldBounds = worldBounds;
+        this.bulletPool    = bulletPool;
+        this.explosionPool = explosionPool;
+        this.worldBounds   = worldBounds;
         this.v.set(v0);
     }
 
     @Override
-    public void update(float delta) {
+    public void update( float delta ) {
         super.update(delta);
-        pos.mulAdd(v, delta);
+        this.pos.mulAdd( this.v, delta );
+
+        switch ( this.state ) {
+            case DESCENT:
+                if ( getTop() <= this.worldBounds.getTop() ) {
+                    this.v.set( this.v0 );
+                    this.state = State.FIGHT;
+                }
+                break;
+            case FIGHT:
+                this.reloadTimer += delta;
+                if ( this.reloadTimer >= this.reloadInterval ) {
+                    this.shoot();
+                    this.reloadTimer = 0f;
+                }
+                if ( this.getBottom() < this.worldBounds.getBottom() ) {
+                    this.boom();
+                    this.destroy();
+                }
+                break;
+        }
     }
 
     /**
@@ -65,5 +92,6 @@ public class EnemyShip extends Ship {
         this.hp = hp;
         setHeightProportion( height );
         v.set(v0);
+        this.shoot();
     }
 }
