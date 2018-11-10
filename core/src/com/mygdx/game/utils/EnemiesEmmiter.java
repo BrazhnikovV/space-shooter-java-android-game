@@ -8,6 +8,8 @@ import com.mygdx.game.math.Rnd;
 import com.mygdx.game.pool.EnemyPool;
 import com.mygdx.game.sprite.EnemyShip;
 
+import static java.lang.Thread.sleep;
+
 public class EnemiesEmmiter {
 
     private static final float ENEMY_SMALL_HEIGHT = 0.1f;
@@ -31,12 +33,18 @@ public class EnemiesEmmiter {
     private static final float ENEMY_BIG_RELOAD_INTERVAL =4f;
     private static final int ENEMY_BIG_HP = 20;
 
+    private static final float ENEMY_MAIN_SPEED   = -0.2f;
+    private static final float ENEMY_SMALL_SPEED  = -0.2f;
+    private static final float ENEMY_MEDIUM_SPEED = -0.03f;
+    private static final float ENEMY_BIG_SPEED    = -0.005f;
+
     private TextureRegion[] enemySmallRegion;
     private TextureRegion[] enemyMediumRegion;
     private TextureRegion[] enemyBigRegion;
-    private Vector2 enemySmallV = new Vector2(0, -0.2f);
-    private Vector2 enemyMediumV = new Vector2(0, -0.03f);
-    private Vector2 enemyBigV = new Vector2(0, -0.005f);
+
+    private Vector2 enemySmallV  = new Vector2(0, ENEMY_MAIN_SPEED );
+    private Vector2 enemyMediumV = new Vector2(0, ENEMY_MAIN_SPEED );
+    private Vector2 enemyBigV    = new Vector2(0, ENEMY_MAIN_SPEED );
 
     private EnemyPool enemyPool;
     private Rect worldBounds;
@@ -55,14 +63,14 @@ public class EnemiesEmmiter {
 
         this.enemyPool = enemyPool;
         this.worldBounds = worldBounds;
-        TextureRegion textureRegion0 = atlas.findRegion("enemy0");
-        this.enemySmallRegion = Regions.split(textureRegion0, 1, 2, 2);
+        TextureRegion textureRegion0 = atlas.findRegion("enemy0" );
+        this.enemySmallRegion = Regions.split( textureRegion0, 1, 2, 2 );
 
-        TextureRegion textureRegion1 = atlas.findRegion("enemy1");
-        this.enemyMediumRegion = Regions.split(textureRegion1, 1, 2, 2);
+        TextureRegion textureRegion1 = atlas.findRegion("enemy1" );
+        this.enemyMediumRegion = Regions.split( textureRegion1, 1, 2, 2 );
 
-        TextureRegion textureRegion2 = atlas.findRegion("enemy2");
-        this.enemyBigRegion = Regions.split(textureRegion2, 1, 2, 2);
+        TextureRegion textureRegion2 = atlas.findRegion("enemy2" );
+        this.enemyBigRegion = Regions.split( textureRegion2, 1, 2, 2 );
 
 
         this.bulletRegion = atlas.findRegion("bulletEnemy");
@@ -74,16 +82,18 @@ public class EnemiesEmmiter {
      */
     public void generate( float delta ) {
         this.generateTimer += delta;
+
         if ( this.generateTimer >= this.generateInterval ) {
 
-            generateTimer = 0f;
+            this.generateTimer = 0f;
             EnemyShip enemy = this.enemyPool.obtain();
             float type = (float) Math.random();
 
-            if ( type < 0.5f ) {
+            if ( type < 0.1f ) {
                 enemy.set(
                     this.enemySmallRegion,
                     this.enemySmallV,
+                    "small",
                     this.bulletRegion,
                     this.ENEMY_SMALL_BULLET_HEIGHT,
                     this.ENEMY_SMALL_BULLET_VY,
@@ -92,11 +102,23 @@ public class EnemiesEmmiter {
                     this.ENEMY_SMALL_HEIGHT,
                     this.ENEMY_SMALL_HP
                 );
+
+                Thread timerSpeed = new Thread(()->{
+                    try {
+                        System.out.println( "ENEMY_SMALL_SPEED" );
+                        sleep(1000);
+                        enemy.setSpeed( ENEMY_SMALL_SPEED );
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                });
+                timerSpeed.start();
             }
             else if ( type < 0.8 ) {
                 enemy.set(
                     this.enemyMediumRegion,
                     this.enemyMediumV,
+                        "medium",
                     this.bulletRegion,
                     this.ENEMY_MEDIUM_BULLET_HEIGHT,
                     this.ENEMY_MEDIUM_BULLET_VY,
@@ -105,11 +127,23 @@ public class EnemiesEmmiter {
                     this.ENEMY_MEDIUM_HEIGHT,
                     this.ENEMY_MEDIUM_HP
                 );
+
+                Thread timerSpeed = new Thread(()->{
+                    try {
+                        System.out.println( "ENEMY_MEDIUM_SPEED" );
+                        sleep(1000);
+                        enemy.setSpeed( ENEMY_MEDIUM_SPEED );
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                });
+                timerSpeed.start();
             }
             else {
                 enemy.set(
                     this.enemyBigRegion,
                     this.enemyBigV,
+                        "big",
                     this.bulletRegion,
                     this.ENEMY_BIG_BULLET_HEIGHT,
                     this.ENEMY_BIG_BULLET_VY,
@@ -118,10 +152,30 @@ public class EnemiesEmmiter {
                     this.ENEMY_BIG_HEIGHT,
                     this.ENEMY_BIG_HP
                 );
+
+                Thread timerSpeed = new Thread(()->{
+                    try {
+                        System.out.println( "ENEMY_BIG_SPEED" );
+                        sleep(1000);
+                        enemy.setSpeed( ENEMY_BIG_SPEED );
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                });
+                timerSpeed.start();
             }
 
             enemy.setBottom( this.worldBounds.getTop() );
             enemy.pos.x = Rnd.nextFloat( this.worldBounds.getLeft() + enemy.getHalfWidth(), worldBounds.getRight() - enemy.getHalfWidth() );
         }
+    }
+
+    /**
+     * setSpeed - генератор вражеских кораблей
+     * @param speed -
+     */
+    public void setSpeed( float speed ) {
+
+
     }
 }

@@ -7,6 +7,14 @@ import com.mygdx.game.math.Rect;
 import com.mygdx.game.pool.BulletPool;
 import com.mygdx.game.pool.ExplosionPool;
 
+/**
+ * EnemyShip -
+ *
+ * @version 1.0.1
+ * @package com.mygdx.game.sprite
+ * @author  Vasya Brazhnikov
+ * @copyright Copyright (c) 2018, Vasya Brazhnikov
+ */
 public class EnemyShip extends Ship {
 
     /**
@@ -15,9 +23,28 @@ public class EnemyShip extends Ship {
      */
     private Vector2 v0 = new Vector2();
 
+    /**
+     *  @access private
+     *  @var Vector2 v0 - вектор скорости
+     */
     private enum State { DESCENT, FIGHT }
 
+    /**
+     *  @access private
+     *  @var State state - вектор ..
+     */
     private State state = State.FIGHT;
+
+    /**
+     *  @access private
+     *  @var String type - тип корабля..
+     */
+    private String type;
+
+    /**
+     *  @access private
+     *  @var Vector2 descentV -
+     */
     private Vector2 descentV = new Vector2(0, -0.15f );
 
     /**
@@ -25,17 +52,17 @@ public class EnemyShip extends Ship {
      * @param bulletPool
      * @param worldBounds
      */
-    public EnemyShip(BulletPool bulletPool, ExplosionPool explosionPool, Rect worldBounds ) {
+    public EnemyShip( BulletPool bulletPool, ExplosionPool explosionPool, Rect worldBounds ) {
         super();
         this.bulletPool    = bulletPool;
         this.explosionPool = explosionPool;
         this.worldBounds   = worldBounds;
-        this.v.set(v0);
+        this.v.set( this.v0 );
     }
 
     @Override
     public void update( float delta ) {
-        super.update(delta);
+        super.update( delta );
         this.pos.mulAdd( this.v, delta );
 
         switch ( this.state ) {
@@ -74,6 +101,7 @@ public class EnemyShip extends Ship {
     public void set(
         TextureRegion[] regions,
         Vector2 v0,
+        String type,
         TextureRegion bulletRegion,
         float bulletHeight,
         float bulletVY,
@@ -84,14 +112,37 @@ public class EnemyShip extends Ship {
     ) {
         this.regions = regions;
         this.v0.set( v0 );
+        this.type = type;
         this.bulletRegion = bulletRegion;
         this.bulletHeight = bulletHeight;
         this.bulletV.set( 0f, bulletVY );
-        this.bulletDamage = bulletDamage;
+        this.bulletDamage   = bulletDamage;
         this.reloadInterval = reloadInterval;
         this.hp = hp;
         setHeightProportion( height );
-        v.set(v0);
+        this.v.set(v0);
         this.shoot();
+    }
+
+    public void setSpeed( float speed ) {
+        //Vector2 newV = new Vector2( this.pos.x, speed );
+        //this.v0.set( newV );
+        //this.v.set( this.v0 );
+        this.v.y = speed;
+    }
+
+    public boolean isBulletCollision(Rect bullet) {
+        return !(  bullet.getRight() < getLeft()
+                || bullet.getLeft() > getRight()
+                || bullet.getBottom() > getTop()
+                || bullet.getTop() < this.pos.y
+        );
+    }
+
+    @Override
+    public void destroy() {
+        boom();
+        this.hp = 0;
+        super.destroy();
     }
 }

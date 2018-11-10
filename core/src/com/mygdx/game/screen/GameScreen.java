@@ -68,8 +68,22 @@ public class GameScreen extends Base2DScreen {
      */
     private BulletPool bulletPool;
 
+    /**
+     *  @access private
+     *  @var EnemyPool enemyPool - очередь спрайтов пуль для вражеских кораблей
+     */
     private EnemyPool enemyPool;
+
+    /**
+     *  @access private
+     *  @var EnemiesEmmiter enemiesEmmiter -
+     */
     private EnemiesEmmiter enemiesEmmiter;
+
+    /**
+     *  @access private
+     *  @var ExplosionPool explosionPool-
+     */
     private ExplosionPool explosionPool;
 
     @Override
@@ -86,11 +100,11 @@ public class GameScreen extends Base2DScreen {
         }
 
         this.explosionPool = new ExplosionPool( this.textureAtlas );
-        this.bulletPool = new BulletPool();
-        this.mainShip   = new MainShip( this.textureAtlas, this.bulletPool );
+        this.bulletPool    = new BulletPool();
+        this.mainShip      = new MainShip( this.textureAtlas, this.bulletPool );
 
-        this.enemyPool = new EnemyPool( this.bulletPool, this.explosionPool, this.worldBounds );
-        this.enemiesEmmiter = new EnemiesEmmiter( this.enemyPool, this.worldBounds, textureAtlas);
+        this.enemyPool      = new EnemyPool( this.bulletPool, this.explosionPool, this.worldBounds );
+        this.enemiesEmmiter = new EnemiesEmmiter( this.enemyPool, this.worldBounds, textureAtlas) ;
     }
 
     @Override
@@ -112,11 +126,11 @@ public class GameScreen extends Base2DScreen {
             this.stars[i].update( delta );
         }
 
-        this.mainShip.update(delta);
-        this.bulletPool.updateActiveObjects(delta);
-        this.enemyPool.updateActiveObjects(delta);
-        this.explosionPool.updateActiveObjects(delta);
-        this.enemiesEmmiter.generate(delta);
+        this.mainShip.update( delta );
+        this.bulletPool.updateActiveObjects( delta );
+        this.enemyPool.updateActiveObjects( delta );
+        this.explosionPool.updateActiveObjects( delta );
+        this.enemiesEmmiter.generate( delta );
     }
 
     /**
@@ -138,7 +152,7 @@ public class GameScreen extends Base2DScreen {
      */
     public void draw() {
 
-        Gdx.gl.glClearColor(0.128f, 0.53f, 0.9f, 1);
+        Gdx.gl.glClearColor(0.128f, 0.53f, 0.9f, 1 );
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         this.batch.begin();
@@ -158,8 +172,7 @@ public class GameScreen extends Base2DScreen {
     @Override
     public void resize( Rect worldBounds ) {
 
-        this.background.resize( worldBounds )
-        ;
+        this.background.resize( worldBounds );
         for ( int i = 0; i < this.stars.length; i++ ) {
             this.stars[i].resize( worldBounds );
         }
