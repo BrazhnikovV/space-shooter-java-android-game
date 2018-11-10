@@ -67,7 +67,7 @@ public class Sprite extends Rect {
      * @param frames -
      */
     public Sprite( TextureRegion region, int rows, int cols, int frames ) {
-        this.regions = Regions.split(region, rows, cols, frames);
+        this.regions = Regions.split( region, rows, cols, frames );
     }
 
     public Sprite() {

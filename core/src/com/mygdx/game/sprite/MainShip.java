@@ -4,7 +4,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.base.Multimedia;
-import com.mygdx.game.base.Sprite;
+import com.mygdx.game.base.Ship;
 import com.mygdx.game.math.Rect;
 import com.mygdx.game.pool.BulletPool;
 
@@ -16,19 +16,13 @@ import com.mygdx.game.pool.BulletPool;
  * @author  Vasya Brazhnikov
  * @copyright Copyright (c) 2018, Vasya Brazhnikov
  */
-public class MainShip extends Sprite {
+public class MainShip extends Ship {
 
     /**
      *  @access private
      *  @var Vector2 v0 - вектор скорости
      */
     private Vector2 v0 = new Vector2(0.5f, 0 );
-
-    /**
-     *  @access private
-     *  @var Vector2 v - вектор скорости
-     */
-    private Vector2 v = new Vector2();
 
     /**
      *  @access private
@@ -56,24 +50,6 @@ public class MainShip extends Sprite {
 
     /**
      *  @access private
-     *  @var BulletPool bulletPool - очередь пуль
-     */
-    private BulletPool bulletPool;
-
-    /**
-     *  @access private
-     *  @var TextureAtlas atlas - атлас текстур игровых объектов сцены
-     */
-    private TextureAtlas atlas;
-
-    /**
-     *  @access private
-     *  @var Rect worldBounds - границы игрового мира
-     */
-    private Rect worldBounds;
-
-    /**
-     *  @access private
      *  @var Multimedia multimedia -
      */
     private Multimedia multimedia = new Multimedia();
@@ -84,11 +60,17 @@ public class MainShip extends Sprite {
      * @param bulletPool - очередь пуль
      */
     public MainShip( TextureAtlas atlas, BulletPool bulletPool ) {
-        super( atlas.findRegion("main_ship" ), 1, 2, 2 );
+        super(atlas.findRegion("main_ship"), 1, 2, 2 );
+        setHeightProportion(0.15f);
 
-        this.atlas = atlas;
-        setHeightProportion( 0.15f );
         this.bulletPool = bulletPool;
+        this.bulletV.set(0, 0.5f);
+        this.bulletHeight = 0.01f;
+        this.bulletDamage = 1;
+        this.reloadInterval = 0.2f;
+        this.bulletRegion = atlas.findRegion("bulletMainShip");
+
+        setHeightProportion( 0.15f );
     }
 
     @Override
@@ -237,21 +219,5 @@ public class MainShip extends Sprite {
      */
     private void stop() {
         v.setZero();
-    }
-
-    /**
-     * shoot
-     */
-    private void shoot() {
-        Bullet bullet = bulletPool.obtain();
-        bullet.set(
-            this,
-            this.atlas.findRegion("bulletMainShip" ),
-            this.pos,
-            new Vector2(0, 0.5f ),
-            0.01f,
-            this.worldBounds,
-            1
-        );
     }
 }
