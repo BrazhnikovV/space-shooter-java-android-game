@@ -102,6 +102,16 @@ public abstract class SpritesPool<T extends Sprite> {
     }
 
     /**
+     * freeAllActiveObjects -
+     * @return void
+     */
+    public void freeAllActiveObjects() {
+
+        this.freeObjects.addAll( this.activeObjects );
+        this.activeObjects.clear();
+    }
+
+    /**
      * free -
      * @param object -
      * @return void
@@ -114,7 +124,10 @@ public abstract class SpritesPool<T extends Sprite> {
         System.out.println( "active/free:" + this.activeObjects.size() + ":" + this.freeObjects.size() );
     }
 
-
+    /**
+     * getActiveObjects -
+     * @return
+     */
     public List<T> getActiveObjects() {
         return this.activeObjects;
     }

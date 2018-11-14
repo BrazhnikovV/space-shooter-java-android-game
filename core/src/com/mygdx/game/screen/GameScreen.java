@@ -15,6 +15,7 @@ import com.mygdx.game.sprite.Background;
 import com.mygdx.game.sprite.Bullet;
 import com.mygdx.game.sprite.EnemyShip;
 import com.mygdx.game.sprite.MainShip;
+import com.mygdx.game.sprite.MessageGameOver;
 import com.mygdx.game.sprite.Star;
 import com.mygdx.game.utils.EnemiesEmmiter;
 
@@ -41,6 +42,12 @@ public class GameScreen extends Base2DScreen {
      *  @var Texture bgTexture - текстура фона игры
      */
     private Texture bgTexture;
+
+    /**
+     *  @access private
+     *  @var int frags -
+     */
+    private int frags;
 
     /**
      *  @access private
@@ -90,6 +97,24 @@ public class GameScreen extends Base2DScreen {
      */
     private ExplosionPool explosionPool;
 
+    /**
+     *  @access private
+     *  @var enum State -
+     */
+    private enum State { PLAING, GAME_OVER }
+
+    /**
+     *  @access private
+     *  @var State state
+     */
+    private State state;
+
+    /**
+     *  @access private
+     *  @var MessageGameOver messageGameOver
+     */
+    private MessageGameOver messageGameOver;
+
     @Override
     public void show() {
         super.show();
@@ -105,10 +130,14 @@ public class GameScreen extends Base2DScreen {
 
         this.explosionPool = new ExplosionPool( this.textureAtlas );
         this.bulletPool    = new BulletPool();
-        this.mainShip      = new MainShip( this.textureAtlas, this.bulletPool, this.explosionPool );
+        this.mainShip      = new MainShip( this.textureAtlas, this.bulletPool, this.worldBounds, this.explosionPool );
 
         this.enemyPool      = new EnemyPool( this.bulletPool, this.explosionPool, this.worldBounds );
-        this.enemiesEmmiter = new EnemiesEmmiter( this.enemyPool, this.worldBounds, textureAtlas) ;
+        this.enemiesEmmiter = new EnemiesEmmiter( this.enemyPool, this.worldBounds, textureAtlas);
+
+        this.messageGameOver = new MessageGameOver( this.textureAtlas );
+
+        this.startNewGame();
     }
 
     @Override
@@ -135,6 +164,22 @@ public class GameScreen extends Base2DScreen {
         this.enemyPool.updateActiveObjects( delta );
         this.explosionPool.updateActiveObjects( delta );
         this.enemiesEmmiter.generate( delta );
+
+        switch ( this.state ) {
+            case PLAING:
+                this.bulletPool.updateActiveObjects(delta);
+                this.enemyPool.updateActiveObjects(delta);
+                this.mainShip.update(delta);
+                this.enemiesEmmiter.generate(delta);
+
+                if ( this.mainShip.isDestroyed() ) {
+                    this.state = State.GAME_OVER;
+                }
+            break;
+            case GAME_OVER:
+            break;
+
+        }
     }
 
     /**
@@ -154,6 +199,7 @@ public class GameScreen extends Base2DScreen {
             if ( enemyShip.pos.dst2( this.mainShip.pos ) < minDist * minDist ) {
                 enemyShip.destroy();
                 this.mainShip.destroy();
+                this.state = State.GAME_OVER;
                 return;
             }
         }
@@ -168,7 +214,7 @@ public class GameScreen extends Base2DScreen {
                 bullet.destroy();
                 this.mainShip.damage( bullet.getDamage() );
                 if ( mainShip.isDestroyed() ) {
-                    //state = State.GAME_OVER;
+                    this.state = State.GAME_OVER;
                 }
                 return;
             }
@@ -189,7 +235,7 @@ public class GameScreen extends Base2DScreen {
                     bullet.destroy();
                     enemy.damage( bullet.getDamage() );
                     if ( enemy.isDestroyed() ) {
-                        //frags++;
+                        this.frags++;
                     }
                     return;
                 }
@@ -223,13 +269,17 @@ public class GameScreen extends Base2DScreen {
             this.stars[i].draw( this.batch );
         }
 
-        if ( !this.mainShip.isDestroyed() ) {
+        this.explosionPool.drawActiveObjects( this.batch );
+
+        if ( this.state == this.state.GAME_OVER ) {
+            this.messageGameOver.draw( this.batch );
+        }
+        else {
             this.mainShip.draw( this.batch );
+            this.bulletPool.drawActiveObjects( this.batch );
+            this.enemyPool.drawActiveObjects( this.batch );
         }
 
-        this.bulletPool.drawActiveObjects( this.batch );
-        this.enemyPool.drawActiveObjects( this.batch );
-        this.explosionPool.drawActiveObjects( this.batch );
         this.batch.end();
     }
 
@@ -274,5 +324,18 @@ public class GameScreen extends Base2DScreen {
     public boolean touchUp( Vector2 touch, int pointer ) {
         this.mainShip.touchUp( touch, pointer );
         return super.touchUp( touch, pointer );
+    }
+
+    /**
+     * startNewGame
+     */
+    private void startNewGame () {
+        this.state = State.PLAING;
+
+        this.mainShip.starNewGame();
+        this.frags = 0;
+        this.bulletPool.freeAllActiveObjects();
+        this.enemyPool.freeAllActiveObjects();
+        this.explosionPool.freeAllActiveObjects();
     }
 }

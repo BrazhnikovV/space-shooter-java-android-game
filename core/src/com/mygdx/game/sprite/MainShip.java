@@ -60,20 +60,19 @@ public class MainShip extends Ship {
      * @param atlas - атлас текстур
      * @param bulletPool - очередь пуль
      */
-    public MainShip(TextureAtlas atlas, BulletPool bulletPool, ExplosionPool explosionPool) {
+    public MainShip(TextureAtlas atlas, BulletPool bulletPool, Rect worldBounds, ExplosionPool explosionPool) {
         super(atlas.findRegion("main_ship"), 1, 2, 2 );
         setHeightProportion(0.15f);
 
+        this.worldBounds = worldBounds;
+
         this.bulletPool = bulletPool;
         this.explosionPool = explosionPool;
-        this.bulletV.set(0, 0.5f);
-        this.bulletHeight = 0.01f;
-        this.bulletDamage = 1;
-        this.reloadInterval = 0.2f;
-        this.bulletRegion = atlas.findRegion("bulletMainShip");
-        this.hp = 100;
+
+        this.bulletRegion = atlas.findRegion("bulletMainShip" );
 
         setHeightProportion( 0.15f );
+        starNewGame();
     }
 
     @Override
@@ -112,6 +111,16 @@ public class MainShip extends Ship {
         boom();
         this.hp = 0;
         super.destroy();
+    }
+
+    public void starNewGame() {
+        this.pos.x = this.worldBounds.pos.x;
+        this.bulletV.set(0, 0.5f);
+        this.bulletHeight = 0.01f;
+        this.bulletDamage = 1;
+        this.reloadInterval = 0.2f;
+        this.hp = 100;
+        flushDestroy();
     }
 
     /**
