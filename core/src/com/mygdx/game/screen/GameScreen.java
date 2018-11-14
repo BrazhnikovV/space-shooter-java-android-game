@@ -12,9 +12,13 @@ import com.mygdx.game.pool.BulletPool;
 import com.mygdx.game.pool.EnemyPool;
 import com.mygdx.game.pool.ExplosionPool;
 import com.mygdx.game.sprite.Background;
+import com.mygdx.game.sprite.Bullet;
+import com.mygdx.game.sprite.EnemyShip;
 import com.mygdx.game.sprite.MainShip;
 import com.mygdx.game.sprite.Star;
 import com.mygdx.game.utils.EnemiesEmmiter;
+
+import java.util.List;
 
 /**
  * GameScreen - класс игровой сцены
@@ -101,7 +105,7 @@ public class GameScreen extends Base2DScreen {
 
         this.explosionPool = new ExplosionPool( this.textureAtlas );
         this.bulletPool    = new BulletPool();
-        this.mainShip      = new MainShip( this.textureAtlas, this.bulletPool );
+        this.mainShip      = new MainShip( this.textureAtlas, this.bulletPool, this.explosionPool );
 
         this.enemyPool      = new EnemyPool( this.bulletPool, this.explosionPool, this.worldBounds );
         this.enemiesEmmiter = new EnemiesEmmiter( this.enemyPool, this.worldBounds, textureAtlas) ;
@@ -136,7 +140,64 @@ public class GameScreen extends Base2DScreen {
     /**
      * checkCollisions -
      */
-    public void checkCollisions() {}
+    public void checkCollisions() {
+
+        List<EnemyShip> enemyShipsList = this.enemyPool.getActiveObjects();
+
+        for ( EnemyShip enemyShip : enemyShipsList ) {
+            if ( enemyShip.isDestroyed() ) {
+                continue;
+            }
+
+            float minDist = enemyShip.getHalfWidth() + this.mainShip.getHalfWidth();
+
+            if ( enemyShip.pos.dst2( this.mainShip.pos ) < minDist * minDist ) {
+                enemyShip.destroy();
+                this.mainShip.destroy();
+                return;
+            }
+        }
+
+        List<Bullet> bulletList = this.bulletPool.getActiveObjects();
+
+        for ( Bullet bullet : bulletList ) {
+            if ( bullet.isDestroyed() || bullet.getOwner() == this.mainShip ) {
+                continue;
+            }
+            if ( this.mainShip.isBulletCollision(bullet)) {
+                bullet.destroy();
+                this.mainShip.damage( bullet.getDamage() );
+                if ( mainShip.isDestroyed() ) {
+                    //state = State.GAME_OVER;
+                }
+                return;
+            }
+        }
+
+        for ( EnemyShip enemy : enemyShipsList ) {
+
+            if (enemy.isDestroyed()) {
+                continue;
+            }
+            for ( Bullet bullet : bulletList) {
+
+                if ( bullet.isDestroyed() || bullet.getOwner() != this.mainShip ) {
+                    continue;
+                }
+
+                if ( enemy.isBulletCollision( bullet ) ) {
+                    bullet.destroy();
+                    enemy.damage( bullet.getDamage() );
+                    if ( enemy.isDestroyed() ) {
+                        //frags++;
+                    }
+                    return;
+                }
+            }
+        }
+
+
+    }
 
     /**
      * deleteAllDestroyed -
@@ -162,7 +223,10 @@ public class GameScreen extends Base2DScreen {
             this.stars[i].draw( this.batch );
         }
 
-        this.mainShip.draw( this.batch );
+        if ( !this.mainShip.isDestroyed() ) {
+            this.mainShip.draw( this.batch );
+        }
+
         this.bulletPool.drawActiveObjects( this.batch );
         this.enemyPool.drawActiveObjects( this.batch );
         this.explosionPool.drawActiveObjects( this.batch );

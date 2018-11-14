@@ -7,6 +7,7 @@ import com.mygdx.game.base.Multimedia;
 import com.mygdx.game.base.Ship;
 import com.mygdx.game.math.Rect;
 import com.mygdx.game.pool.BulletPool;
+import com.mygdx.game.pool.ExplosionPool;
 
 /**
  * MainShip - класс корабль которым управляет пользователь
@@ -59,23 +60,25 @@ public class MainShip extends Ship {
      * @param atlas - атлас текстур
      * @param bulletPool - очередь пуль
      */
-    public MainShip( TextureAtlas atlas, BulletPool bulletPool ) {
+    public MainShip(TextureAtlas atlas, BulletPool bulletPool, ExplosionPool explosionPool) {
         super(atlas.findRegion("main_ship"), 1, 2, 2 );
         setHeightProportion(0.15f);
 
         this.bulletPool = bulletPool;
+        this.explosionPool = explosionPool;
         this.bulletV.set(0, 0.5f);
         this.bulletHeight = 0.01f;
         this.bulletDamage = 1;
         this.reloadInterval = 0.2f;
         this.bulletRegion = atlas.findRegion("bulletMainShip");
+        this.hp = 100;
 
         setHeightProportion( 0.15f );
     }
 
     @Override
     public void update( float delta ) {
-
+        super.update( delta );
         // вычисляем точки для ограничения области
         // передвижение корабля в рамках игрового мира
         float rightDelimeter = this.worldBounds.getRight() - this.getWidth() / 2;
@@ -102,6 +105,26 @@ public class MainShip extends Ship {
     public void resize( Rect worldBounds ) {
         this.worldBounds = worldBounds;
         setBottom( worldBounds.getBottom() + 0.05f );
+    }
+
+    @Override
+    public void destroy() {
+        boom();
+        this.hp = 0;
+        super.destroy();
+    }
+
+    /**
+     * isBulletCollision
+     * @param bullet -
+     * @return
+     */
+    public boolean isBulletCollision( Rect bullet ) {
+        return !( bullet.getRight() < getLeft()
+            || bullet.getLeft() > getRight()
+            || bullet.getBottom() > this.pos.y
+            || bullet.getTop() <getBottom()
+        );
     }
 
     /**

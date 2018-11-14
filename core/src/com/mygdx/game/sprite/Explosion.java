@@ -10,7 +10,7 @@ public class Explosion extends Sprite {
     private float anumateInterval = 0.017f;
     private float animateTimer;
 
-    public Explosion(TextureRegion region, int rows, int cols, int frames) {
+    public Explosion( TextureRegion region, int rows, int cols, int frames ) {
         super(region, rows, cols, frames);
         //this.sound = sound;
     }

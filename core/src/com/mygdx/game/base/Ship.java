@@ -8,7 +8,7 @@ import com.mygdx.game.pool.ExplosionPool;
 import com.mygdx.game.sprite.Bullet;
 import com.mygdx.game.sprite.Explosion;
 
-public class Ship extends Sprite {
+public abstract class Ship extends Sprite {
 
     /**
      *  @access protected
@@ -66,6 +66,18 @@ public class Ship extends Sprite {
 
     /**
      *  @access protected
+     *  @var float damageAnimateInterval -
+     */
+    protected float damageAnimateInterval = 0.1f;
+
+    /**
+     *  @access protected
+     *  @var float damageAnimateTimer - таймер
+     */
+    protected float damageAnimateTimer;
+
+    /**
+     *  @access protected
      *  @var int hp - количество здоровья у корабля
      */
     protected int hp;
@@ -98,9 +110,29 @@ public class Ship extends Sprite {
      */
     public Ship() {}
 
+    public void damage( int damage ) {
+        this.frame = 1;
+        this.damageAnimateTimer = 0f;
+        this.hp -= damage;
+
+        if ( this.hp < 0 ) {
+            this.destroy();
+        }
+    }
+
     @Override
     public void resize( Rect worldBounds ) {
         this.worldBounds = worldBounds;
+    }
+
+    @Override
+    public void update(float delta) {
+        super.update(delta);
+        this.damageAnimateTimer += delta;
+
+        if ( this.damageAnimateTimer >= this.damageAnimateInterval ) {
+            this.frame = 0;
+        }
     }
 
     /**
