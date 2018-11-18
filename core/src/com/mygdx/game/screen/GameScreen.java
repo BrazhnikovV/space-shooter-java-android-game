@@ -14,13 +14,13 @@ import com.mygdx.game.pool.EnemyPool;
 import com.mygdx.game.pool.ExplosionPool;
 import com.mygdx.game.sprite.Background;
 import com.mygdx.game.sprite.Bullet;
+import com.mygdx.game.sprite.ButtonNewGame;
 import com.mygdx.game.sprite.EnemyShip;
 import com.mygdx.game.sprite.MainShip;
 import com.mygdx.game.sprite.MessageGameOver;
 import com.mygdx.game.sprite.Star;
 import com.mygdx.game.utils.EnemiesEmmiter;
 
-import java.beans.ExceptionListener;
 import java.util.List;
 
 /**
@@ -103,7 +103,7 @@ public class GameScreen extends Base2DScreen implements ActionListener {
      *  @access private
      *  @var enum State -
      */
-    private enum State { PLAING, GAME_OVER }
+    private enum State { PLAYING, GAME_OVER }
 
     /**
      *  @access private
@@ -177,7 +177,7 @@ public class GameScreen extends Base2DScreen implements ActionListener {
 
         this.explosionPool.updateActiveObjects( delta );
 
-        if ( this.state == State.PLAING ) {
+        if ( this.state == State.PLAYING ) {
             this.bulletPool.updateActiveObjects( delta );
             this.enemyPool.updateActiveObjects( delta );
             this.mainShip.update( delta );
@@ -324,7 +324,7 @@ public class GameScreen extends Base2DScreen implements ActionListener {
 
     @Override
     public boolean touchDown( Vector2 touch, int pointer ) {
-        if ( this.state == State.PLAING ) {
+        if ( this.state == State.PLAYING ) {
             this.mainShip.touchDown( touch, pointer );
         }
         else {
@@ -336,7 +336,7 @@ public class GameScreen extends Base2DScreen implements ActionListener {
 
     @Override
     public boolean touchUp( Vector2 touch, int pointer ) {
-        if ( this.state == State.PLAING ) {
+        if ( this.state == State.PLAYING ) {
             this.mainShip.touchUp( touch, pointer );
         }
         else {
@@ -350,7 +350,7 @@ public class GameScreen extends Base2DScreen implements ActionListener {
      * startNewGame
      */
     private void startNewGame () {
-        this.state = State.PLAING;
+        this.state = State.PLAYING;
 
         this.mainShip.starNewGame();
         this.frags = 0;

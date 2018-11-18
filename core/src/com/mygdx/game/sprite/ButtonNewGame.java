@@ -1,7 +1,6 @@
-package com.mygdx.game.screen;
+package com.mygdx.game.sprite;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygdx.game.base.ActionListener;
 import com.mygdx.game.base.ScaledTouchUpButton;
 
