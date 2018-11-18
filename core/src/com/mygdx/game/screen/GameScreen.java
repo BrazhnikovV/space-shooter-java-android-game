@@ -365,7 +365,7 @@ public class GameScreen extends Base2DScreen implements ActionListener {
 
         this.font.draw(
                 this.batch,
-                this.sbLevel.append( this.LEVEL ).append( "1" ),
+                this.sbLevel.append( this.LEVEL ).append( this.enemiesEmmiter.getLevel() ),
                 this.worldBounds.getRight(),
                 this.worldBounds.getTop() - 0.01f,
                 Align.right
@@ -442,6 +442,7 @@ public class GameScreen extends Base2DScreen implements ActionListener {
     private void startNewGame () {
         this.state = State.PLAYING;
 
+        this.enemiesEmmiter.setLevel( 1 );
         this.mainShip.starNewGame();
         this.frags = 0;
         this.bulletPool.freeAllActiveObjects();

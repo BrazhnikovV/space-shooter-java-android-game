@@ -53,6 +53,8 @@ public class EnemiesEmmiter {
     private float generateInterval = 4f;
     private float generateTimer;
 
+    private int level;
+
     /**
      * Constructor -
      * @param enemyPool - очередь спрайтов пуль вражеского корабля
@@ -84,13 +86,15 @@ public class EnemiesEmmiter {
     public void generate( float delta, int frags ) {
         this.generateTimer += delta;
 
+        this.level = frags / 5 + 1;
+
         if ( this.generateTimer >= this.generateInterval ) {
 
             this.generateTimer = 0f;
             EnemyShip enemy = this.enemyPool.obtain();
             float type = (float) Math.random();
 
-            if ( type < 0.1f ) {
+            if ( type < 0.9f ) {
                 enemy.set(
                     this.enemySmallRegion,
                     this.enemySmallV,
@@ -98,7 +102,7 @@ public class EnemiesEmmiter {
                     this.bulletRegion,
                     this.ENEMY_SMALL_BULLET_HEIGHT,
                     this.ENEMY_SMALL_BULLET_VY,
-                    this.ENEMY_SMALL_BULLET_DAMAGE,
+                    this.ENEMY_SMALL_BULLET_DAMAGE * this.level,
                     this.ENEMY_SMALL_RELOAD_INTERVAL,
                     this.ENEMY_SMALL_HEIGHT,
                     this.ENEMY_SMALL_HP
@@ -115,7 +119,7 @@ public class EnemiesEmmiter {
                 });
                 timerSpeed.start();
             }
-            else if ( type < 0.8 ) {
+            else if ( type < 0.6 ) {
                 enemy.set(
                     this.enemyMediumRegion,
                     this.enemyMediumV,
@@ -123,7 +127,7 @@ public class EnemiesEmmiter {
                     this.bulletRegion,
                     this.ENEMY_MEDIUM_BULLET_HEIGHT,
                     this.ENEMY_MEDIUM_BULLET_VY,
-                    this.ENEMY_MEDIUM_BULLET_DAMAGE,
+                    this.ENEMY_MEDIUM_BULLET_DAMAGE * this.level,
                     this.ENEMY_MEDIUM_RELOAD_INTERVAL,
                     this.ENEMY_MEDIUM_HEIGHT,
                     this.ENEMY_MEDIUM_HP
@@ -148,7 +152,7 @@ public class EnemiesEmmiter {
                     this.bulletRegion,
                     this.ENEMY_BIG_BULLET_HEIGHT,
                     this.ENEMY_BIG_BULLET_VY,
-                    this.ENEMY_BIG_BULLET_DAMAGE,
+                    this.ENEMY_BIG_BULLET_DAMAGE * this.level,
                     this.ENEMY_BIG_RELOAD_INTERVAL,
                     this.ENEMY_BIG_HEIGHT,
                     this.ENEMY_BIG_HP
@@ -178,5 +182,21 @@ public class EnemiesEmmiter {
     public void setSpeed( float speed ) {
 
 
+    }
+
+    /**
+     * getLevel
+     * @return int
+     */
+    public int getLevel() {
+        return this.level;
+    }
+
+    /**
+     * setLevel
+     * @return void
+     */
+    public void setLevel( int level ) {
+        this.level = level;
     }
 }
