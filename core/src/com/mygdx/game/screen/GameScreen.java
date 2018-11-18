@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.base.ActionListener;
 import com.mygdx.game.base.Base2DScreen;
+import com.mygdx.game.base.ScaledTouchUpButton;
 import com.mygdx.game.math.Rect;
 import com.mygdx.game.pool.BulletPool;
 import com.mygdx.game.pool.EnemyPool;
@@ -103,7 +104,7 @@ public class GameScreen extends Base2DScreen implements ActionListener {
      *  @access private
      *  @var enum State -
      */
-    private enum State { PLAYING, GAME_OVER }
+    private enum State { PLAYING, GAME_OVER, PAUSE }
 
     /**
      *  @access private
@@ -186,6 +187,9 @@ public class GameScreen extends Base2DScreen implements ActionListener {
             if ( this.mainShip.isDestroyed() ) {
                 this.state = State.GAME_OVER;
             }
+        }
+        else if ( this.state == State.PAUSE ) {
+
         }
     }
 
@@ -312,6 +316,14 @@ public class GameScreen extends Base2DScreen implements ActionListener {
 
     @Override
     public boolean keyDown( int keycode ) {
+        if ( keycode == 44 ) {
+            if ( this.state == State.PAUSE ) {
+                this.state = State.PLAYING;
+            }
+            else {
+                this.state = State.PAUSE;
+            }
+        }
         this.mainShip.keyDown( keycode );
         return super.keyDown( keycode );
     }
