@@ -113,6 +113,9 @@ public class MainShip extends Ship {
         super.destroy();
     }
 
+    /**
+     * starNewGame
+     */
     public void starNewGame() {
         this.pos.x = this.worldBounds.pos.x;
         this.bulletV.set(0, 0.5f);
@@ -121,6 +124,13 @@ public class MainShip extends Ship {
         this.reloadInterval = 0.2f;
         this.hp = 100;
         flushDestroy();
+    }
+
+    /**
+     * getHp
+     */
+    public int getHp() {
+        return this.hp;
     }
 
     /**

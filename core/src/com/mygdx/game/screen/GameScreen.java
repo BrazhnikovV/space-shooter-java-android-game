@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Align;
 import com.mygdx.game.base.ActionListener;
 import com.mygdx.game.base.Base2DScreen;
 import com.mygdx.game.base.Font;
@@ -43,9 +44,33 @@ public class GameScreen extends Base2DScreen implements ActionListener {
 
     /**
      *  @access private
-     *  @var    StringBuilder stringBuilder
+     *  @var    String HP
      */
-    private StringBuilder stringBuilder = new StringBuilder();
+    private static final String HP = "Hp: ";
+
+    /**
+     *  @access private
+     *  @var    String LEVEL
+     */
+    private static final String LEVEL = "Level: ";
+
+    /**
+     *  @access private
+     *  @var    StringBuilder sbFrags
+     */
+    private StringBuilder sbFrags = new StringBuilder();
+
+    /**
+     *  @access private
+     *  @var    StringBuilder sbHp
+     */
+    private StringBuilder sbHp = new StringBuilder();
+
+    /**
+     *  @access private
+     *  @var    StringBuilder sbLevel
+     */
+    private StringBuilder sbLevel = new StringBuilder();
 
     /**
      *  @access private
@@ -319,12 +344,31 @@ public class GameScreen extends Base2DScreen implements ActionListener {
 
     public void printInfo() {
 
-        this.stringBuilder.setLength( 0 );
+        this.sbFrags.setLength( 0 );
+        this.sbHp.setLength( 0 );
+        this.sbLevel.setLength( 0 );
+
         this.font.draw(
             this.batch,
-            this.stringBuilder.append( this.FRAGS).append( this.frags),
+            this.sbFrags.append( this.FRAGS).append( this.frags),
             this.worldBounds.getLeft() + 0.01f,
             this.worldBounds.getTop() - 0.01f
+        );
+
+        this.font.draw(
+                this.batch,
+                this.sbHp.append( this.HP ).append( this.mainShip.getHp() ),
+                this.worldBounds.pos.x,
+                this.worldBounds.getTop() - 0.01f,
+                Align.center
+        );
+
+        this.font.draw(
+                this.batch,
+                this.sbLevel.append( this.LEVEL ).append( "1" ),
+                this.worldBounds.getRight(),
+                this.worldBounds.getTop() - 0.01f,
+                Align.right
         );
     }
 
