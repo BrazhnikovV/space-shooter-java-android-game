@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.base.ActionListener;
 import com.mygdx.game.base.Base2DScreen;
+import com.mygdx.game.base.Font;
 import com.mygdx.game.base.ScaledTouchUpButton;
 import com.mygdx.game.math.Rect;
 import com.mygdx.game.pool.BulletPool;
@@ -33,6 +34,18 @@ import java.util.List;
  * @copyright Copyright (c) 2018, Vasya Brazhnikov
  */
 public class GameScreen extends Base2DScreen implements ActionListener {
+
+    /**
+     *  @access private
+     *  @var    String FRAGS
+     */
+    private static final String FRAGS = "Frags: ";
+
+    /**
+     *  @access private
+     *  @var    StringBuilder stringBuilder
+     */
+    private StringBuilder stringBuilder = new StringBuilder();
 
     /**
      *  @access private
@@ -124,6 +137,12 @@ public class GameScreen extends Base2DScreen implements ActionListener {
      */
     private ButtonNewGame buttonNewGame;
 
+    /**
+     *  @access private
+     *  @var Font font
+     */
+    private Font font;
+
     @Override
     public void show() {
         super.show();
@@ -146,6 +165,8 @@ public class GameScreen extends Base2DScreen implements ActionListener {
 
         this.messageGameOver = new MessageGameOver( this.textureAtlas );
         this.buttonNewGame   = new ButtonNewGame( this.textureAtlas, this );
+        this.font = new Font( "font/font.fnt", "font/font.png" );
+        this.font.setFontSize( 0.03f );
 
         this.startNewGame();
     }
@@ -154,7 +175,9 @@ public class GameScreen extends Base2DScreen implements ActionListener {
     public void render( float delta ) {
         super.render( delta );
         update( delta );
-        checkCollisions();
+        if ( this.state == State.PLAYING ) {
+            checkCollisions();
+        }
         deleteAllDestroyed();
         draw();
     }
@@ -252,8 +275,6 @@ public class GameScreen extends Base2DScreen implements ActionListener {
                 }
             }
         }
-
-
     }
 
     /**
@@ -292,7 +313,19 @@ public class GameScreen extends Base2DScreen implements ActionListener {
             this.enemyPool.drawActiveObjects( this.batch );
         }
 
+        this.printInfo();
         this.batch.end();
+    }
+
+    public void printInfo() {
+
+        this.stringBuilder.setLength( 0 );
+        this.font.draw(
+            this.batch,
+            this.stringBuilder.append( this.FRAGS).append( this.frags),
+            this.worldBounds.getLeft() + 0.01f,
+            this.worldBounds.getTop() - 0.01f
+        );
     }
 
     @Override
@@ -311,6 +344,7 @@ public class GameScreen extends Base2DScreen implements ActionListener {
 
         this.bgTexture.dispose();
         this.textureAtlas.dispose();
+        this.font.dispose();
         super.dispose();
     }
 
