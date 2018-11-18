@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.base.ActionListener;
 import com.mygdx.game.base.Base2DScreen;
 import com.mygdx.game.math.Rect;
 import com.mygdx.game.pool.BulletPool;
@@ -19,6 +20,7 @@ import com.mygdx.game.sprite.MessageGameOver;
 import com.mygdx.game.sprite.Star;
 import com.mygdx.game.utils.EnemiesEmmiter;
 
+import java.beans.ExceptionListener;
 import java.util.List;
 
 /**
@@ -29,7 +31,7 @@ import java.util.List;
  * @author  Vasya Brazhnikov
  * @copyright Copyright (c) 2018, Vasya Brazhnikov
  */
-public class GameScreen extends Base2DScreen {
+public class GameScreen extends Base2DScreen implements ActionListener {
 
     /**
      *  @access private
@@ -115,6 +117,12 @@ public class GameScreen extends Base2DScreen {
      */
     private MessageGameOver messageGameOver;
 
+    /**
+     *  @access private
+     *  @var ButtonNewGame buttonNewGame
+     */
+    private ButtonNewGame buttonNewGame;
+
     @Override
     public void show() {
         super.show();
@@ -136,6 +144,7 @@ public class GameScreen extends Base2DScreen {
         this.enemiesEmmiter = new EnemiesEmmiter( this.enemyPool, this.worldBounds, textureAtlas);
 
         this.messageGameOver = new MessageGameOver( this.textureAtlas );
+        this.buttonNewGame   = new ButtonNewGame( this.textureAtlas, this );
 
         this.startNewGame();
     }
@@ -149,6 +158,13 @@ public class GameScreen extends Base2DScreen {
         draw();
     }
 
+    @Override
+    public void actionPerformed( Object src ) {
+        if ( src == this.buttonNewGame ) {
+            this.startNewGame();
+        }
+    }
+
     /**
      * update -
      * @param delta
@@ -159,26 +175,17 @@ public class GameScreen extends Base2DScreen {
             this.stars[i].update( delta );
         }
 
-        this.mainShip.update( delta );
-        this.bulletPool.updateActiveObjects( delta );
-        this.enemyPool.updateActiveObjects( delta );
         this.explosionPool.updateActiveObjects( delta );
-        this.enemiesEmmiter.generate( delta );
 
-        switch ( this.state ) {
-            case PLAING:
-                this.bulletPool.updateActiveObjects(delta);
-                this.enemyPool.updateActiveObjects(delta);
-                this.mainShip.update(delta);
-                this.enemiesEmmiter.generate(delta);
+        if ( this.state == State.PLAING ) {
+            this.bulletPool.updateActiveObjects( delta );
+            this.enemyPool.updateActiveObjects( delta );
+            this.mainShip.update( delta );
+            this.enemiesEmmiter.generate( delta, this.frags );
 
-                if ( this.mainShip.isDestroyed() ) {
-                    this.state = State.GAME_OVER;
-                }
-            break;
-            case GAME_OVER:
-            break;
-
+            if ( this.mainShip.isDestroyed() ) {
+                this.state = State.GAME_OVER;
+            }
         }
     }
 
@@ -273,6 +280,7 @@ public class GameScreen extends Base2DScreen {
 
         if ( this.state == this.state.GAME_OVER ) {
             this.messageGameOver.draw( this.batch );
+            this.buttonNewGame.draw( this.batch );
         }
         else {
             this.mainShip.draw( this.batch );
@@ -316,13 +324,25 @@ public class GameScreen extends Base2DScreen {
 
     @Override
     public boolean touchDown( Vector2 touch, int pointer ) {
-        this.mainShip.touchDown( touch, pointer );
+        if ( this.state == State.PLAING ) {
+            this.mainShip.touchDown( touch, pointer );
+        }
+        else {
+            this.buttonNewGame.touchDown( touch, pointer );
+        }
+
         return super.touchDown( touch, pointer );
     }
 
     @Override
     public boolean touchUp( Vector2 touch, int pointer ) {
-        this.mainShip.touchUp( touch, pointer );
+        if ( this.state == State.PLAING ) {
+            this.mainShip.touchUp( touch, pointer );
+        }
+        else {
+            this.buttonNewGame.touchUp( touch, pointer );
+        }
+
         return super.touchUp( touch, pointer );
     }
 

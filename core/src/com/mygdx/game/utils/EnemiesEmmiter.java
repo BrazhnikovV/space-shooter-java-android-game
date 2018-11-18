@@ -79,8 +79,9 @@ public class EnemiesEmmiter {
     /**
      * generate - генератор вражеских кораблей
      * @param delta
+     * @param frags
      */
-    public void generate( float delta ) {
+    public void generate( float delta, int frags ) {
         this.generateTimer += delta;
 
         if ( this.generateTimer >= this.generateInterval ) {
