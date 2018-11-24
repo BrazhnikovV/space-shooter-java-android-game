@@ -21,7 +21,7 @@ public class EnemyPool extends SpritesPool<EnemyShip> {
 
     /**
      *  @access private
-     *  @var ExplosionPool explosionPool -
+     *  @var ExplosionPool explosionPool - пул взрывов
      */
     private ExplosionPool explosionPool;
 
@@ -34,18 +34,17 @@ public class EnemyPool extends SpritesPool<EnemyShip> {
     /**
      * Constructor -
      * @param bulletPool - пул пуль
-     * @param explosionPool -
+     * @param explosionPool - пул взрывов
      * @param worldBounds - границы игрового мира
      */
     public EnemyPool( BulletPool bulletPool, ExplosionPool explosionPool,  Rect worldBounds  ) {
-        this.bulletPool = bulletPool;
-        this.worldBounds = worldBounds;
+        this.bulletPool    = bulletPool;
+        this.worldBounds   = worldBounds;
         this.explosionPool = explosionPool;
     }
 
     @Override
     protected EnemyShip newObject() {
-
         return new EnemyShip( this.bulletPool, this.explosionPool, this.worldBounds );
     }
 }

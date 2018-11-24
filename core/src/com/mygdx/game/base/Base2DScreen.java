@@ -146,7 +146,7 @@ public abstract class Base2DScreen implements Screen, InputProcessor {
 
     @Override
     public boolean touchDown( int screenX, int screenY, int pointer, int button ) {
-        System.out.println( "touchDown" );
+        //System.out.println( "touchDown" );
 
         this.touch.set( screenX, this.screenBounds.getHeight() - screenY).mul( this.screenToWorld );
         touchDown( this.touch, pointer );
@@ -161,14 +161,14 @@ public abstract class Base2DScreen implements Screen, InputProcessor {
      * @return
      */
     public boolean touchDown( Vector2 touch, int pointer ) {
-        System.out.println( "touchDown touch.x = " + touch.x + " touch.y = " + touch.y );
+        //System.out.println( "touchDown touch.x = " + touch.x + " touch.y = " + touch.y );
         return false;
     }
 
     @Override
     public boolean touchUp( int screenX, int screenY, int pointer, int button ) {
-        System.out.println( "touchUp" );
-        this.touch.set( screenX, this.screenBounds.getHeight() - screenY).mul( this.screenToWorld );
+        //System.out.println( "touchUp" );
+        //this.touch.set( screenX, this.screenBounds.getHeight() - screenY).mul( this.screenToWorld );
         touchUp( this.touch, pointer );
         return false;
     }
@@ -180,7 +180,7 @@ public abstract class Base2DScreen implements Screen, InputProcessor {
      * @return
      */
     public boolean touchUp( Vector2 touch, int pointer ) {
-        System.out.println( "touchUp touch.x = " + touch.x + " touch.y = " + touch.y );
+        //System.out.println( "touchUp touch.x = " + touch.x + " touch.y = " + touch.y );
 
         return false;
     }

@@ -155,7 +155,15 @@ public class MainShip extends Ship {
     public boolean touchDown( Vector2 touch, int pointer ) {
         System.out.println( "MainShip => touchDown" );
 
-        if ( touch.x > 0 ) {
+        // если кликаем или тапаем по кораблю, то производим выстрел
+        if ( this.isMe( touch ) ) {
+            this.shoot();
+            return false;
+        }
+
+        // если производим клик левее или правее текущего положения корабля,
+        // то производим перемещения корабля в сторону за которой был клик, тап
+        if ( touch.x > this.pos.x ) {
             this.touchPressedLeft  = false;
             this.touchPressedRight = true;
             this.moveRight();
