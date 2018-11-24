@@ -1,6 +1,7 @@
 package com.mygdx.game.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -171,9 +172,21 @@ public class GameScreen extends Base2DScreen implements ActionListener {
 
     /**
      *  @access private
-     *  @var Font font
+     *  @var Sound shootSound
      */
     private Sound shootSound;
+
+    /**
+     *  @access private
+     *  @var Sound bulletSound
+     */
+    private Sound bulletSound;
+
+    /**
+     *  @access private
+     *  @var Sound bgSound
+     */
+    private Music bgSound;
 
     @Override
     public void show() {
@@ -183,7 +196,8 @@ public class GameScreen extends Base2DScreen implements ActionListener {
         this.background   = new Background(new TextureRegion( this.bgTexture ) );
         this.textureAtlas = new TextureAtlas("mainAtlas.tpack" );
 
-        this.shootSound = Gdx.audio.newSound(Gdx.files.internal("sounds/machine-gun-queue.wav"));
+        this.shootSound  = Gdx.audio.newSound(Gdx.files.internal("sounds/machine-gun-queue.wav"));
+        this.bulletSound = Gdx.audio.newSound(Gdx.files.internal("sounds/bullet.wav"));
 
         this.stars = new Star[this.STAR_COUNT];
         for ( int i = 0; i < this.stars.length; i++ ) {
@@ -194,13 +208,17 @@ public class GameScreen extends Base2DScreen implements ActionListener {
         this.bulletPool    = new BulletPool();
         this.mainShip      = new MainShip( this.textureAtlas, this.bulletPool, this.worldBounds, this.explosionPool, this.shootSound );
 
-        this.enemyPool      = new EnemyPool( this.bulletPool, this.explosionPool, this.worldBounds );
+        this.enemyPool      = new EnemyPool( this.bulletPool, this.explosionPool, this.worldBounds, this.bulletSound );
         this.enemiesEmmiter = new EnemiesEmmiter( this.enemyPool, this.worldBounds, textureAtlas);
 
         this.messageGameOver = new MessageGameOver( this.textureAtlas );
         this.buttonNewGame   = new ButtonNewGame( this.textureAtlas, this );
         this.font = new Font( "font/font.fnt", "font/font.png" );
         this.font.setFontSize( 0.03f );
+
+        this.bgSound = Gdx.audio.newMusic(Gdx.files.internal("sounds/menu-background.wav"));
+        this.bgSound.setLooping(true);
+        this.bgSound.play();
 
         this.startNewGame();
     }
@@ -398,6 +416,9 @@ public class GameScreen extends Base2DScreen implements ActionListener {
         this.bgTexture.dispose();
         this.textureAtlas.dispose();
         this.font.dispose();
+        this.shootSound.dispose();
+        this.bulletSound.dispose();
+        this.bgSound.dispose();
         super.dispose();
     }
 

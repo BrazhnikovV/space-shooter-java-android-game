@@ -1,5 +1,6 @@
 package com.mygdx.game.sprite;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.base.Ship;
@@ -53,8 +54,8 @@ public class EnemyShip extends Ship {
      * @param bulletPool  - пул пуль
      * @param worldBounds - границы игрового мира
      */
-    public EnemyShip( BulletPool bulletPool, ExplosionPool explosionPool, Rect worldBounds ) {
-        super();
+    public EnemyShip(BulletPool bulletPool, ExplosionPool explosionPool, Rect worldBounds, Sound bulletSound) {
+        super( bulletSound );
         this.bulletPool    = bulletPool;
         this.explosionPool = explosionPool;
         this.worldBounds   = worldBounds;

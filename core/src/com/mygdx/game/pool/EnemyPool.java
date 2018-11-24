@@ -1,6 +1,6 @@
 package com.mygdx.game.pool;
 
-import com.mygdx.game.base.Multimedia;
+import com.badlogic.gdx.audio.Sound;
 import com.mygdx.game.base.SpritesPool;
 import com.mygdx.game.math.Rect;
 import com.mygdx.game.sprite.EnemyShip;
@@ -27,9 +27,9 @@ public class EnemyPool extends SpritesPool<EnemyShip> {
 
     /**
      *  @access private
-     *  @var Multimedia shootSound -
+     *  @var Sound bulletSound -
      */
-    private Multimedia shootSound;
+    private Sound bulletSound;
 
     /**
      * Constructor -
@@ -37,14 +37,15 @@ public class EnemyPool extends SpritesPool<EnemyShip> {
      * @param explosionPool - пул взрывов
      * @param worldBounds - границы игрового мира
      */
-    public EnemyPool( BulletPool bulletPool, ExplosionPool explosionPool,  Rect worldBounds  ) {
+    public EnemyPool(BulletPool bulletPool, ExplosionPool explosionPool, Rect worldBounds , Sound bulletSound ) {
         this.bulletPool    = bulletPool;
         this.worldBounds   = worldBounds;
         this.explosionPool = explosionPool;
+        this.bulletSound   = bulletSound;
     }
 
     @Override
     protected EnemyShip newObject() {
-        return new EnemyShip( this.bulletPool, this.explosionPool, this.worldBounds );
+        return new EnemyShip( this.bulletPool, this.explosionPool, this.worldBounds, this.bulletSound );
     }
 }
