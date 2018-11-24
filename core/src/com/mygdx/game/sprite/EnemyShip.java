@@ -124,6 +124,7 @@ public class EnemyShip extends Ship {
     }
 
     public void setSpeed( float speed ) {
+        System.out.println( "EnemyShip => setSpeed => speed: " + speed );
         //Vector2 newV = new Vector2( this.pos.x, speed );
         //this.v0.set( newV );
         //this.v.set( this.v0 );

@@ -36,7 +36,7 @@ public class EnemiesEmmiter {
     private static final float ENEMY_MAIN_SPEED   = -0.2f;
     private static final float ENEMY_SMALL_SPEED  = -0.2f;
     private static final float ENEMY_MEDIUM_SPEED = -0.03f;
-    private static final float ENEMY_BIG_SPEED    = -0.005f;
+    private static final float ENEMY_BIG_SPEED    = -0.01f;
 
     private TextureRegion[] enemySmallRegion;
     private TextureRegion[] enemyMediumRegion;
@@ -50,7 +50,7 @@ public class EnemiesEmmiter {
     private Rect worldBounds;
     private TextureRegion bulletRegion;
 
-    private float generateInterval = 4f;
+    private float generateInterval = 2f;
     private float generateTimer;
 
     private int level;
@@ -94,7 +94,7 @@ public class EnemiesEmmiter {
             EnemyShip enemy = this.enemyPool.obtain();
             float type = (float) Math.random();
 
-            if ( type < 0.9f ) {
+            if ( type < 0.6f ) {
                 enemy.set(
                     this.enemySmallRegion,
                     this.enemySmallV,
@@ -119,7 +119,7 @@ public class EnemiesEmmiter {
                 });
                 timerSpeed.start();
             }
-            else if ( type < 0.6 ) {
+            else if ( type < 0.8 ) {
                 enemy.set(
                     this.enemyMediumRegion,
                     this.enemyMediumV,
@@ -144,7 +144,7 @@ public class EnemiesEmmiter {
                 });
                 timerSpeed.start();
             }
-            else {
+            else if ( type < 0.9 ) {
                 enemy.set(
                     this.enemyBigRegion,
                     this.enemyBigV,
@@ -171,7 +171,10 @@ public class EnemiesEmmiter {
             }
 
             enemy.setBottom( this.worldBounds.getTop() );
-            enemy.pos.x = Rnd.nextFloat( this.worldBounds.getLeft() + enemy.getHalfWidth(), worldBounds.getRight() - enemy.getHalfWidth() );
+            enemy.pos.x = Rnd.nextFloat(
+                this.worldBounds.getLeft() + enemy.getHalfWidth(),
+                this.worldBounds.getRight() - enemy.getHalfWidth()
+            );
         }
     }
 
