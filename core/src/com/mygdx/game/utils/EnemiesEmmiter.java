@@ -62,17 +62,17 @@ public class EnemiesEmmiter {
      */
     public EnemiesEmmiter( EnemyPool enemyPool, Rect worldBounds, TextureAtlas atlas ) {
 
-        this.enemyPool = enemyPool;
+        this.enemyPool  = enemyPool;
         this.worldBounds = worldBounds;
+
         TextureRegion textureRegion0 = atlas.findRegion("enemy0" );
-        this.enemySmallRegion = Regions.split( textureRegion0, 1, 2, 2 );
+        this.enemySmallRegion        = Regions.split( textureRegion0, 1, 2, 2 );
 
         TextureRegion textureRegion1 = atlas.findRegion("enemy1" );
-        this.enemyMediumRegion = Regions.split( textureRegion1, 1, 2, 2 );
+        this.enemyMediumRegion       = Regions.split( textureRegion1, 1, 2, 2 );
 
         TextureRegion textureRegion2 = atlas.findRegion("enemy2" );
-        this.enemyBigRegion = Regions.split( textureRegion2, 1, 2, 2 );
-
+        this.enemyBigRegion          = Regions.split( textureRegion2, 1, 2, 2 );
 
         this.bulletRegion = atlas.findRegion("bulletEnemy");
     }
@@ -80,59 +80,55 @@ public class EnemiesEmmiter {
     /**
      * generate - генератор вражеских кораблей
      * @param delta
-     * @param frags
+     * @param frags - количество убитых кораблей в текущей игре
      */
     public void generate( float delta, int frags ) {
         this.generateTimer += delta;
 
+        // по количеству фрагов определяем уровень текущей игры
         this.level = frags / 5 + 1;
 
+        // проверяем не пора ли создать новый вражеский корабль
         if ( this.generateTimer >= this.generateInterval ) {
 
             this.generateTimer = 0f;
             EnemyShip enemy = this.enemyPool.obtain();
-            float type = (float) Math.random();
 
+            // рандомно определяем тип создаваемого корабля
+            float type = (float) Math.random();
             if ( type < 0.5f ) {
                 enemy.set(
-                    this.enemySmallRegion, this.enemySmallV,
-                    "small", this.bulletRegion,
-                    this.ENEMY_SMALL_BULLET_HEIGHT,
-                    this.ENEMY_SMALL_BULLET_VY,
+                    this.enemySmallRegion, this.enemySmallV,"small", this.bulletRegion,
+                    this.ENEMY_SMALL_BULLET_HEIGHT, this.ENEMY_SMALL_BULLET_VY,
                     this.ENEMY_SMALL_BULLET_DAMAGE * this.level,
                     this.ENEMY_SMALL_RELOAD_INTERVAL,
                     this.ENEMY_SMALL_HEIGHT,
                     this.ENEMY_SMALL_HP
                 );
-
             }
             else if ( type < 0.8f ) {
                 enemy.set(
-                    this.enemyMediumRegion, this.enemyMediumV,
-                        "medium", this.bulletRegion,
-                    this.ENEMY_MEDIUM_BULLET_HEIGHT,
-                    this.ENEMY_MEDIUM_BULLET_VY,
+                    this.enemyMediumRegion, this.enemyMediumV,"medium", this.bulletRegion,
+                    this.ENEMY_MEDIUM_BULLET_HEIGHT, this.ENEMY_MEDIUM_BULLET_VY,
                     this.ENEMY_MEDIUM_BULLET_DAMAGE * this.level,
                     this.ENEMY_MEDIUM_RELOAD_INTERVAL,
                     this.ENEMY_MEDIUM_HEIGHT,
                     this.ENEMY_MEDIUM_HP
                 );
-
             }
             else {
                 enemy.set(
-                    this.enemyBigRegion, this.enemyBigV,
-                        "big", this.bulletRegion,
-                    this.ENEMY_BIG_BULLET_HEIGHT,
-                    this.ENEMY_BIG_BULLET_VY,
+                    this.enemyBigRegion, this.enemyBigV,"big", this.bulletRegion,
+                    this.ENEMY_BIG_BULLET_HEIGHT, this.ENEMY_BIG_BULLET_VY,
                     this.ENEMY_BIG_BULLET_DAMAGE * this.level,
                     this.ENEMY_BIG_RELOAD_INTERVAL,
                     this.ENEMY_BIG_HEIGHT,
                     this.ENEMY_BIG_HP
                 );
-
             }
 
+            // устанавливаем начальную позицию вражеского
+            // корабля ( вверху за экраном )
             enemy.setBottom( this.worldBounds.getTop() );
             enemy.pos.x = Rnd.nextFloat(
                 this.worldBounds.getLeft() + enemy.getHalfWidth(),
@@ -142,7 +138,7 @@ public class EnemiesEmmiter {
     }
 
     /**
-     * getLevel
+     * getLevel получить уровень текущей игры
      * @return int
      */
     public int getLevel() {
@@ -150,7 +146,8 @@ public class EnemiesEmmiter {
     }
 
     /**
-     * setLevel
+     * setLevel - установить уровень текущей игры
+     * @param level - уровень текущей игры
      * @return void
      */
     public void setLevel( int level ) {

@@ -51,7 +51,7 @@ public class EnemyShip extends Ship {
     /**
      * Constructor -
      * @param bulletPool  - пул пуль
-     * @param worldBounds - объект игрового мира
+     * @param worldBounds - границы игрового мира
      */
     public EnemyShip( BulletPool bulletPool, ExplosionPool explosionPool, Rect worldBounds ) {
         super();
