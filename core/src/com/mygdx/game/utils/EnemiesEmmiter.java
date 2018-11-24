@@ -33,18 +33,17 @@ public class EnemiesEmmiter {
     private static final float ENEMY_BIG_RELOAD_INTERVAL =4f;
     private static final int ENEMY_BIG_HP = 20;
 
-    private static final float ENEMY_MAIN_SPEED   = -0.2f;
     private static final float ENEMY_SMALL_SPEED  = -0.2f;
-    private static final float ENEMY_MEDIUM_SPEED = -0.03f;
-    private static final float ENEMY_BIG_SPEED    = -0.01f;
+    private static final float ENEMY_MEDIUM_SPEED = -0.05f;
+    private static final float ENEMY_BIG_SPEED    = -0.02f;
 
     private TextureRegion[] enemySmallRegion;
     private TextureRegion[] enemyMediumRegion;
     private TextureRegion[] enemyBigRegion;
 
-    private Vector2 enemySmallV  = new Vector2(0, ENEMY_MAIN_SPEED );
-    private Vector2 enemyMediumV = new Vector2(0, ENEMY_MAIN_SPEED );
-    private Vector2 enemyBigV    = new Vector2(0, ENEMY_MAIN_SPEED );
+    private Vector2 enemySmallV  = new Vector2(0, ENEMY_SMALL_SPEED );
+    private Vector2 enemyMediumV = new Vector2(0, ENEMY_MEDIUM_SPEED );
+    private Vector2 enemyBigV    = new Vector2(0, ENEMY_BIG_SPEED );
 
     private EnemyPool enemyPool;
     private Rect worldBounds;
@@ -94,12 +93,10 @@ public class EnemiesEmmiter {
             EnemyShip enemy = this.enemyPool.obtain();
             float type = (float) Math.random();
 
-            if ( type < 0.6f ) {
+            if ( type < 0.5f ) {
                 enemy.set(
-                    this.enemySmallRegion,
-                    this.enemySmallV,
-                    "small",
-                    this.bulletRegion,
+                    this.enemySmallRegion, this.enemySmallV,
+                    "small", this.bulletRegion,
                     this.ENEMY_SMALL_BULLET_HEIGHT,
                     this.ENEMY_SMALL_BULLET_VY,
                     this.ENEMY_SMALL_BULLET_DAMAGE * this.level,
@@ -108,23 +105,11 @@ public class EnemiesEmmiter {
                     this.ENEMY_SMALL_HP
                 );
 
-                Thread timerSpeed = new Thread(()->{
-                    try {
-                        System.out.println( "ENEMY_SMALL_SPEED" );
-                        sleep(1000);
-                        enemy.setSpeed( ENEMY_SMALL_SPEED );
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                });
-                timerSpeed.start();
             }
-            else if ( type < 0.8 ) {
+            else if ( type < 0.8f ) {
                 enemy.set(
-                    this.enemyMediumRegion,
-                    this.enemyMediumV,
-                        "medium",
-                    this.bulletRegion,
+                    this.enemyMediumRegion, this.enemyMediumV,
+                        "medium", this.bulletRegion,
                     this.ENEMY_MEDIUM_BULLET_HEIGHT,
                     this.ENEMY_MEDIUM_BULLET_VY,
                     this.ENEMY_MEDIUM_BULLET_DAMAGE * this.level,
@@ -133,23 +118,11 @@ public class EnemiesEmmiter {
                     this.ENEMY_MEDIUM_HP
                 );
 
-                Thread timerSpeed = new Thread(()->{
-                    try {
-                        System.out.println( "ENEMY_MEDIUM_SPEED" );
-                        sleep(1000);
-                        enemy.setSpeed( ENEMY_MEDIUM_SPEED );
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                });
-                timerSpeed.start();
             }
-            else if ( type < 0.9 ) {
+            else {
                 enemy.set(
-                    this.enemyBigRegion,
-                    this.enemyBigV,
-                        "big",
-                    this.bulletRegion,
+                    this.enemyBigRegion, this.enemyBigV,
+                        "big", this.bulletRegion,
                     this.ENEMY_BIG_BULLET_HEIGHT,
                     this.ENEMY_BIG_BULLET_VY,
                     this.ENEMY_BIG_BULLET_DAMAGE * this.level,
@@ -158,16 +131,6 @@ public class EnemiesEmmiter {
                     this.ENEMY_BIG_HP
                 );
 
-                Thread timerSpeed = new Thread(()->{
-                    try {
-                        System.out.println( "ENEMY_BIG_SPEED" );
-                        sleep(1000);
-                        enemy.setSpeed( ENEMY_BIG_SPEED );
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                });
-                timerSpeed.start();
             }
 
             enemy.setBottom( this.worldBounds.getTop() );
@@ -176,15 +139,6 @@ public class EnemiesEmmiter {
                 this.worldBounds.getRight() - enemy.getHalfWidth()
             );
         }
-    }
-
-    /**
-     * setSpeed - генератор вражеских кораблей
-     * @param speed -
-     */
-    public void setSpeed( float speed ) {
-
-
     }
 
     /**

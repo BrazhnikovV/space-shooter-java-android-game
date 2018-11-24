@@ -33,7 +33,7 @@ public class EnemyShip extends Ship {
      *  @access private
      *  @var State state - вектор ..
      */
-    private State state = State.DESCENT;
+    private State state;
 
     /**
      *  @access private
@@ -121,14 +121,7 @@ public class EnemyShip extends Ship {
         this.hp = hp;
         setHeightProportion( height );
         this.v.set( this.descentV );
-    }
-
-    public void setSpeed( float speed ) {
-        System.out.println( "EnemyShip => setSpeed => speed: " + speed );
-        //Vector2 newV = new Vector2( this.pos.x, speed );
-        //this.v0.set( newV );
-        //this.v.set( this.v0 );
-        this.v.y = speed;
+        this.state = State.DESCENT;
     }
 
     public boolean isBulletCollision( Rect bullet ) {
