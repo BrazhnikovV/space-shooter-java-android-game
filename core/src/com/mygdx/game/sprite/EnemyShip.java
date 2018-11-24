@@ -8,7 +8,7 @@ import com.mygdx.game.pool.BulletPool;
 import com.mygdx.game.pool.ExplosionPool;
 
 /**
- * EnemyShip -
+ * EnemyShip - класс вражеский корабль
  *
  * @version 1.0.1
  * @package com.mygdx.game.sprite
@@ -25,32 +25,33 @@ public class EnemyShip extends Ship {
 
     /**
      *  @access private
-     *  @var Vector2 v0 - вектор скорости
+     *  @var Vector2 v0 - список состояний
      */
     private enum State { DESCENT, FIGHT }
 
     /**
      *  @access private
-     *  @var State state - вектор ..
+     *  @var State state - переменная состояния корабля
      */
     private State state;
 
     /**
      *  @access private
-     *  @var String type - тип корабля..
+     *  @var String type - тип корабля (маленький, средний, большой)
      */
     private String type;
 
     /**
      *  @access private
-     *  @var Vector2 descentV -
+     *  @var Vector2 descentV - стартовый вектор скорости,
+     *  для быстрого появления вновь сгенерированного корабля
      */
     private Vector2 descentV = new Vector2(0, -0.15f );
 
     /**
      * Constructor -
-     * @param bulletPool
-     * @param worldBounds
+     * @param bulletPool  - пул пуль
+     * @param worldBounds - объект игрового мира
      */
     public EnemyShip( BulletPool bulletPool, ExplosionPool explosionPool, Rect worldBounds ) {
         super();
@@ -58,32 +59,6 @@ public class EnemyShip extends Ship {
         this.explosionPool = explosionPool;
         this.worldBounds   = worldBounds;
         this.v.set( this.v0 );
-    }
-
-    @Override
-    public void update( float delta ) {
-        super.update( delta );
-        this.pos.mulAdd( this.v, delta );
-
-        switch ( this.state ) {
-            case DESCENT:
-                if ( getTop() <= this.worldBounds.getTop() ) {
-                    this.v.set( this.v0 );
-                    this.state = State.FIGHT;
-                }
-                break;
-            case FIGHT:
-                this.reloadTimer += delta;
-                if ( this.reloadTimer >= this.reloadInterval ) {
-                    this.shoot();
-                    this.reloadTimer = 0f;
-                }
-                if ( this.getBottom() < this.worldBounds.getBottom() ) {
-                    this.boom();
-                    this.destroy();
-                }
-                break;
-        }
     }
 
     /**
@@ -124,12 +99,43 @@ public class EnemyShip extends Ship {
         this.state = State.DESCENT;
     }
 
+    /**
+     * isBulletCollision - проверить колизию попадания пуль
+     * @param bullet - пуля пользовательского корабля
+     * @return
+     */
     public boolean isBulletCollision( Rect bullet ) {
         return !(  bullet.getRight() < getLeft()
                 || bullet.getLeft() > getRight()
                 || bullet.getBottom() > getTop()
                 || bullet.getTop() < this.pos.y
         );
+    }
+
+    @Override
+    public void update( float delta ) {
+        super.update( delta );
+        this.pos.mulAdd( this.v, delta );
+
+        switch ( this.state ) {
+            case DESCENT:
+                if ( getTop() <= this.worldBounds.getTop() ) {
+                    this.v.set( this.v0 );
+                    this.state = State.FIGHT;
+                }
+                break;
+            case FIGHT:
+                this.reloadTimer += delta;
+                if ( this.reloadTimer >= this.reloadInterval ) {
+                    this.shoot();
+                    this.reloadTimer = 0f;
+                }
+                if ( this.getBottom() < this.worldBounds.getBottom() ) {
+                    this.boom();
+                    this.destroy();
+                }
+                break;
+        }
     }
 
     @Override
