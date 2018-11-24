@@ -1,6 +1,7 @@
 package com.mygdx.game.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -168,6 +169,12 @@ public class GameScreen extends Base2DScreen implements ActionListener {
      */
     private Font font;
 
+    /**
+     *  @access private
+     *  @var Font font
+     */
+    private Sound shootSound;
+
     @Override
     public void show() {
         super.show();
@@ -176,6 +183,8 @@ public class GameScreen extends Base2DScreen implements ActionListener {
         this.background   = new Background(new TextureRegion( this.bgTexture ) );
         this.textureAtlas = new TextureAtlas("mainAtlas.tpack" );
 
+        this.shootSound = Gdx.audio.newSound(Gdx.files.internal("sounds/machine-gun-queue.wav"));
+
         this.stars = new Star[this.STAR_COUNT];
         for ( int i = 0; i < this.stars.length; i++ ) {
             this.stars[i] = new Star( this.textureAtlas );
@@ -183,7 +192,7 @@ public class GameScreen extends Base2DScreen implements ActionListener {
 
         this.explosionPool = new ExplosionPool( this.textureAtlas );
         this.bulletPool    = new BulletPool();
-        this.mainShip      = new MainShip( this.textureAtlas, this.bulletPool, this.worldBounds, this.explosionPool );
+        this.mainShip      = new MainShip( this.textureAtlas, this.bulletPool, this.worldBounds, this.explosionPool, this.shootSound );
 
         this.enemyPool      = new EnemyPool( this.bulletPool, this.explosionPool, this.worldBounds );
         this.enemiesEmmiter = new EnemiesEmmiter( this.enemyPool, this.worldBounds, textureAtlas);

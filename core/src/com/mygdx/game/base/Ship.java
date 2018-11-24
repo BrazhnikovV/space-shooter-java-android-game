@@ -1,5 +1,6 @@
 package com.mygdx.game.base;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.math.Rect;
@@ -90,9 +91,9 @@ public abstract class Ship extends Sprite {
 
     /**
      *  @access protected
-     *  @var Multimedia shootSound - звук выстрела корабля
+     *  @var Sound shootSound -
      */
-    private Multimedia shootSound;
+    private Sound shootSound;
 
     /**
      * Constructor -
@@ -101,14 +102,17 @@ public abstract class Ship extends Sprite {
      * @param cols -
      * @param frames -
      */
-    public Ship( TextureRegion region, int rows, int cols, int frames ) {
+    public Ship( TextureRegion region, int rows, int cols, int frames, Sound shootSound ) {
         super( region, rows, cols, frames );
+        this.shootSound = shootSound;
     }
 
     /**
      * Constructor -
      */
-    public Ship() {}
+    public Ship( Sound shootSound ) {
+        this.shootSound = shootSound;
+    }
 
     public void damage( int damage ) {
         this.frame = 1;
@@ -140,7 +144,16 @@ public abstract class Ship extends Sprite {
      */
     protected void shoot() {
         Bullet bullet = this.bulletPool.obtain();
-        bullet.set(this, this.bulletRegion, this.pos, this.bulletV, this.bulletHeight, this.worldBounds, this.bulletDamage );
+        bullet.set(
+            this,
+            this.bulletRegion,
+            this.pos,
+            this.bulletV,
+            this.bulletHeight,
+            this.worldBounds,
+            this.bulletDamage
+        );
+        this.shootSound.play();
     }
 
     /**

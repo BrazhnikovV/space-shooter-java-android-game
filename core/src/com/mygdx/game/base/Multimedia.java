@@ -35,8 +35,21 @@ public class Multimedia {
      * Constructor
      */
     public Multimedia() {
-        this.menuMusic = Gdx.audio.newSound( Gdx.files.internal("sounds/menu-background.mp3" ) );
-        this.machineGunQueue = Gdx.audio.newSound( Gdx.files.internal("sounds/machine-gun-queue.mp3" ) );
+
+    }
+
+    /**
+     * Constructor
+     */
+    public void createBfMusic() {
+        this.menuMusic = Gdx.audio.newSound( Gdx.files.internal("sounds/menu-background.wav" ) );
+    }
+
+    /**
+     * Constructor
+     */
+    public void createMachineGunSound() {
+        this.machineGunQueue = Gdx.audio.newSound( Gdx.files.internal("sounds/machine-gun-queue.wav" ) );
     }
 
     /**
@@ -64,7 +77,7 @@ public class Multimedia {
      * stopMachineGunQueue - остановить воспроизведение
      */
     public void stopMachineGunQueue() {
-        //this.machineGunQueue.stop( (long) this.idMachineGunQueue );
-        //this.machineGunQueue.dispose();
+        this.machineGunQueue.stop( (long) this.idMachineGunQueue );
+        this.machineGunQueue.dispose();
     }
 }

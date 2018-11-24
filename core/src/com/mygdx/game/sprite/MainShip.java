@@ -1,9 +1,9 @@
 package com.mygdx.game.sprite;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.game.base.Multimedia;
 import com.mygdx.game.base.Ship;
 import com.mygdx.game.math.Rect;
 import com.mygdx.game.pool.BulletPool;
@@ -39,6 +39,12 @@ public class MainShip extends Ship {
 
     /**
      *  @access private
+     *  @var boolean pressedUp - флаг нажатия кнопки управления кораблем ( Верх )
+     */
+    private boolean pressedUp;
+
+    /**
+     *  @access private
      *  @var boolean touchPressedRight - флаг тача
      */
     private boolean touchPressedRight;
@@ -51,17 +57,23 @@ public class MainShip extends Ship {
 
     /**
      *  @access private
-     *  @var Multimedia multimedia -
+     *  @var int shootInterval -
      */
-    private Multimedia multimedia = new Multimedia();
+    private final float shootInterval = 0.15f;
+
+    /**
+     *  @access private
+     *  @var float shootTimer -
+     */
+    private float shootTimer;
 
     /**
      * Constructor -
      * @param atlas - атлас текстур
      * @param bulletPool - очередь пуль
      */
-    public MainShip(TextureAtlas atlas, BulletPool bulletPool, Rect worldBounds, ExplosionPool explosionPool) {
-        super(atlas.findRegion("main_ship"), 1, 2, 2 );
+    public MainShip(TextureAtlas atlas, BulletPool bulletPool, Rect worldBounds, ExplosionPool explosionPool, Sound shootSound ) {
+        super(atlas.findRegion("main_ship"), 1, 2, 2 , shootSound );
         setHeightProportion(0.15f);
 
         this.worldBounds = worldBounds;
@@ -78,6 +90,14 @@ public class MainShip extends Ship {
     @Override
     public void update( float delta ) {
         super.update( delta );
+
+        if ( this.pressedUp ) {
+            this.shootTimer += delta;
+            if ( this.shootTimer > this.shootInterval ) {
+                this.shoot();
+                this.shootTimer = 0f;
+            }
+        }
         // вычисляем точки для ограничения области
         // передвижение корабля в рамках игрового мира
         float rightDelimeter = this.worldBounds.getRight() - this.getWidth() / 2;
@@ -208,8 +228,7 @@ public class MainShip extends Ship {
                 moveRight();
                 break;
             case Input.Keys.UP:
-                this.multimedia.playMachineGunQueue();
-                this.shoot();
+                this.pressedUp = true;
                 break;
         }
         return false;
@@ -244,7 +263,7 @@ public class MainShip extends Ship {
                 }
                 break;
             case Input.Keys.UP:
-                this.multimedia.stopMachineGunQueue();
+                this.pressedUp = false;
                 break;
         }
         return false;

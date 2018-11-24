@@ -87,6 +87,7 @@ public class MenuScreen extends Base2DScreen implements ActionListener {
     public MenuScreen( Game game ) {
         super();
         this.game = game;
+        this.multimedia.createBfMusic();
         this.multimedia.playMenuMusic();
     }
 
