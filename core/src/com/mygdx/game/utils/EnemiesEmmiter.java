@@ -8,30 +8,37 @@ import com.mygdx.game.math.Rnd;
 import com.mygdx.game.pool.EnemyPool;
 import com.mygdx.game.sprite.EnemyShip;
 
-import static java.lang.Thread.sleep;
-
+/**
+ * EnemiesEmmiter - утилитарный класс для дополнительного функционала
+ * управления вражескими кораблями
+ *
+ * @version 1.0.1
+ * @package com.mygdx.game.utils
+ * @author  Vasya Brazhnikov
+ * @copyright Copyright (c) 2018, Vasya Brazhnikov
+ */
 public class EnemiesEmmiter {
 
     private static final float ENEMY_SMALL_HEIGHT = 0.1f;
     private static final float ENEMY_SMALL_BULLET_HEIGHT = 0.01f;
     private static final float ENEMY_SMALL_BULLET_VY = -0.3f;
-    private static final int ENEMY_SMALL_BULLET_DAMAGE = 1;
+    private static final int   ENEMY_SMALL_BULLET_DAMAGE = 1;
     private static final float ENEMY_SMALL_RELOAD_INTERVAL =3f;
-    private static final int ENEMY_SMALL_HP = 1;
+    private static final int   ENEMY_SMALL_HP = 1;
 
     private static final float ENEMY_MEDIUM_HEIGHT = 0.1f;
     private static final float ENEMY_MEDIUM_BULLET_HEIGHT = 0.02f;
     private static final float ENEMY_MEDIUM_BULLET_VY = -0.3f;
-    private static final int ENEMY_MEDIUM_BULLET_DAMAGE = 5;
+    private static final int   ENEMY_MEDIUM_BULLET_DAMAGE = 5;
     private static final float ENEMY_MEDIUM_RELOAD_INTERVAL =4f;
-    private static final int ENEMY_MEDIUM_HP = 5;
+    private static final int   ENEMY_MEDIUM_HP = 5;
 
     private static final float ENEMY_BIG_HEIGHT = 0.2f;
     private static final float ENEMY_BIG_BULLET_HEIGHT = 0.06f;
     private static final float ENEMY_BIG_BULLET_VY = -0.25f;
-    private static final int ENEMY_BIG_BULLET_DAMAGE = 12;
+    private static final int   ENEMY_BIG_BULLET_DAMAGE = 12;
     private static final float ENEMY_BIG_RELOAD_INTERVAL =4f;
-    private static final int ENEMY_BIG_HP = 20;
+    private static final int   ENEMY_BIG_HP = 20;
 
     private static final float ENEMY_SMALL_SPEED  = -0.2f;
     private static final float ENEMY_MEDIUM_SPEED = -0.05f;

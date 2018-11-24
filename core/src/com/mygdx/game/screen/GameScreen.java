@@ -184,6 +184,12 @@ public class GameScreen extends Base2DScreen implements ActionListener {
 
     /**
      *  @access private
+     *  @var Sound explosionSound
+     */
+    private Sound explosionSound;
+
+    /**
+     *  @access private
      *  @var Sound bgSound
      */
     private Music bgSound;
@@ -196,15 +202,16 @@ public class GameScreen extends Base2DScreen implements ActionListener {
         this.background   = new Background(new TextureRegion( this.bgTexture ) );
         this.textureAtlas = new TextureAtlas("mainAtlas.tpack" );
 
-        this.shootSound  = Gdx.audio.newSound(Gdx.files.internal("sounds/machine-gun-queue.wav"));
-        this.bulletSound = Gdx.audio.newSound(Gdx.files.internal("sounds/bullet.wav"));
+        this.shootSound     = Gdx.audio.newSound(Gdx.files.internal("sounds/machine-gun-queue.wav"));
+        this.bulletSound    = Gdx.audio.newSound(Gdx.files.internal("sounds/bullet.wav"));
+        this.explosionSound = Gdx.audio.newSound(Gdx.files.internal("sounds/explosion.wav"));
 
         this.stars = new Star[this.STAR_COUNT];
         for ( int i = 0; i < this.stars.length; i++ ) {
             this.stars[i] = new Star( this.textureAtlas );
         }
 
-        this.explosionPool = new ExplosionPool( this.textureAtlas );
+        this.explosionPool = new ExplosionPool( this.textureAtlas, this.explosionSound );
         this.bulletPool    = new BulletPool();
         this.mainShip      = new MainShip( this.textureAtlas, this.bulletPool, this.worldBounds, this.explosionPool, this.shootSound );
 
@@ -418,6 +425,7 @@ public class GameScreen extends Base2DScreen implements ActionListener {
         this.font.dispose();
         this.shootSound.dispose();
         this.bulletSound.dispose();
+        this.explosionSound.dispose();
         this.bgSound.dispose();
         super.dispose();
     }
