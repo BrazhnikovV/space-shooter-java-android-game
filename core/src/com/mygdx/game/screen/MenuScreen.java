@@ -14,6 +14,7 @@ import com.mygdx.game.math.Rect;
 import com.mygdx.game.sprite.Background;
 import com.mygdx.game.sprite.BtnExit;
 import com.mygdx.game.sprite.BtnPlay;
+import com.mygdx.game.sprite.BtnRecords;
 import com.mygdx.game.sprite.Star;
 
 /**
@@ -70,6 +71,12 @@ public class MenuScreen extends Base2DScreen implements ActionListener {
 
     /**
      *  @access private
+     *  @var BtnRecords btnRecords - спрайт кнопки records
+     */
+    private BtnRecords btnRecords;
+
+    /**
+     *  @access private
      *  @var Game game -
      */
     private Game game;
@@ -89,10 +96,12 @@ public class MenuScreen extends Base2DScreen implements ActionListener {
 
         this.bgTexture    = new Texture("bg.png" );
         this.background   = new Background( new TextureRegion( this.bgTexture ) );
-        this.textureAtlas = new TextureAtlas("menuAtlas.tpack" );
+        this.textureAtlas = new TextureAtlas("buttons_menu.tpack" );
         this.btnExit      = new BtnExit( this.textureAtlas, this  );
         this.btnPlay      = new BtnPlay( this.textureAtlas, this  );
+        this.btnRecords   = new BtnRecords( this.textureAtlas, this  );
         this.stars        = new Star[STAR_COUNT];
+        this.textureAtlas = new TextureAtlas("menuAtlas.tpack" );
 
         // собираем звезды в массив
         for ( int i = 0; i < this.stars.length; i++ ) {
@@ -134,6 +143,7 @@ public class MenuScreen extends Base2DScreen implements ActionListener {
 
         this.btnExit.draw( this.batch );
         this.btnPlay.draw( this.batch );
+        this.btnRecords.draw( this.batch );
 
         this.batch.end();
     }
@@ -149,6 +159,7 @@ public class MenuScreen extends Base2DScreen implements ActionListener {
 
         this.btnExit.resize( worldBounds );
         this.btnPlay.resize( worldBounds );
+        this.btnRecords.resize( worldBounds );
     }
 
     @Override

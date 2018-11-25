@@ -14,7 +14,7 @@ import com.mygdx.game.math.Rect;
  * @author  Vasya Brazhnikov
  * @copyright Copyright (c) 2018, Vasya Brazhnikov
  */
-public class BtnExit extends ScaledTouchUpButton {
+public class BtnRecords extends ScaledTouchUpButton {
 
     /**
      *  @access private
@@ -33,9 +33,9 @@ public class BtnExit extends ScaledTouchUpButton {
      * @param atlas -
      * @param actionListener -
      */
-    public BtnExit( TextureAtlas atlas, ActionListener actionListener ) {
+    public BtnRecords(TextureAtlas atlas, ActionListener actionListener ) {
 
-        super(atlas.findRegion("button_exit"), actionListener);
+        super(atlas.findRegion("button_list"), actionListener);
         setHeightProportion( 0.15f );
     }
 
@@ -48,7 +48,7 @@ public class BtnExit extends ScaledTouchUpButton {
     public void resize( Rect worldBounds ) {
         System.out.println( "BtnExit => resize" );
 
-        float offset_x = 0.1f;
+        float offset_x = 0.3f;
         float offset_y = 0.3f;
         setBottom( worldBounds.getBottom() + offset_y );
         setRight( worldBounds.getRight() - offset_x );

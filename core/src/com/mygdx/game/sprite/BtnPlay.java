@@ -33,8 +33,8 @@ public class BtnPlay extends ScaledTouchUpButton {
      * @param atlas
      */
     public BtnPlay( TextureAtlas atlas, ActionListener actionListener ) {
-        super( atlas.findRegion("btPlay" ), actionListener );
-        setHeightProportion( 0.1f );
+        super( atlas.findRegion("button_play" ), actionListener );
+        setHeightProportion( 0.15f );
     }
 
     @Override
@@ -44,9 +44,9 @@ public class BtnPlay extends ScaledTouchUpButton {
     public void resize( Rect worldBounds ) {
         System.out.println( "BtnPlay => resize" );
 
-        float offset = 0.01f;
-
-        setBottom( worldBounds.getBottom() + offset );
-        setLeft( worldBounds.getLeft() + offset );
+        float offset_x = 0.1f;
+        float offset_y = 0.3f;
+        setBottom( worldBounds.getBottom() + offset_y );
+        setLeft( worldBounds.getLeft() + offset_x );
     }
 }
