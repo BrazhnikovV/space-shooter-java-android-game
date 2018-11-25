@@ -1,5 +1,6 @@
 package com.mygdx.game.screen;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -12,17 +13,14 @@ import com.badlogic.gdx.utils.Align;
 import com.mygdx.game.base.ActionListener;
 import com.mygdx.game.base.Base2DScreen;
 import com.mygdx.game.base.Font;
-import com.mygdx.game.base.ScaledTouchUpButton;
 import com.mygdx.game.math.Rect;
 import com.mygdx.game.pool.BulletPool;
 import com.mygdx.game.pool.EnemyPool;
 import com.mygdx.game.pool.ExplosionPool;
 import com.mygdx.game.sprite.Background;
 import com.mygdx.game.sprite.Bullet;
-import com.mygdx.game.sprite.ButtonNewGame;
 import com.mygdx.game.sprite.EnemyShip;
 import com.mygdx.game.sprite.MainShip;
-import com.mygdx.game.sprite.MessageGameOver;
 import com.mygdx.game.sprite.Star;
 import com.mygdx.game.utils.EnemiesEmmiter;
 
@@ -154,24 +152,6 @@ public class GameScreen extends Base2DScreen implements ActionListener {
 
     /**
      *  @access private
-     *  @var MessageGameOver messageGameOver
-     */
-    private MessageGameOver messageGameOver;
-
-    /**
-     *  @access private
-     *  @var ButtonNewGame buttonNewGame
-     */
-    private ButtonNewGame buttonNewGame;
-
-    /**
-     *  @access private
-     *  @var Font font
-     */
-    private Font font;
-
-    /**
-     *  @access private
      *  @var Sound shootSound
      */
     private Sound shootSound;
@@ -194,6 +174,27 @@ public class GameScreen extends Base2DScreen implements ActionListener {
      */
     private Music bgSound;
 
+    /**
+     *  @access private
+     *  @var Game game -
+     */
+    private Game game;
+
+    /**
+     *  @access private
+     *  @var Font font
+     */
+    private Font font;
+
+    /**
+     * Constructor -
+     * @param game -
+     */
+    public GameScreen( Game game ) {
+        super();
+        this.game = game;
+    }
+
     @Override
     public void show() {
         super.show();
@@ -206,6 +207,9 @@ public class GameScreen extends Base2DScreen implements ActionListener {
         this.bulletSound    = Gdx.audio.newSound(Gdx.files.internal("sounds/bullet.wav"));
         this.explosionSound = Gdx.audio.newSound(Gdx.files.internal("sounds/explosion.wav"));
 
+        this.font = new Font( "font/font.fnt", "font/font.png" );
+        this.font.setFontSize( 0.03f );
+
         this.stars = new Star[this.STAR_COUNT];
         for ( int i = 0; i < this.stars.length; i++ ) {
             this.stars[i] = new Star( this.textureAtlas );
@@ -217,11 +221,6 @@ public class GameScreen extends Base2DScreen implements ActionListener {
 
         this.enemyPool      = new EnemyPool( this.bulletPool, this.explosionPool, this.worldBounds, this.bulletSound );
         this.enemiesEmmiter = new EnemiesEmmiter( this.enemyPool, this.worldBounds, textureAtlas);
-
-        this.messageGameOver = new MessageGameOver( this.textureAtlas );
-        this.buttonNewGame   = new ButtonNewGame( this.textureAtlas, this );
-        this.font = new Font( "font/font.fnt", "font/font.png" );
-        this.font.setFontSize( 0.03f );
 
         this.bgSound = Gdx.audio.newMusic(Gdx.files.internal("sounds/menu-background.wav"));
         this.bgSound.setLooping(true);
@@ -243,9 +242,9 @@ public class GameScreen extends Base2DScreen implements ActionListener {
 
     @Override
     public void actionPerformed( Object src ) {
-        if ( src == this.buttonNewGame ) {
-            this.startNewGame();
-        }
+        //if ( src == this.buttonNewGame ) {
+        //    this.startNewGame();
+        //}
     }
 
     /**
@@ -267,6 +266,7 @@ public class GameScreen extends Base2DScreen implements ActionListener {
             this.enemiesEmmiter.generate( delta, this.frags );
 
             if ( this.mainShip.isDestroyed() ) {
+                this.game.setScreen( new MenuScreen( this.game, true ));
                 this.state = State.GAME_OVER;
             }
         }
@@ -292,6 +292,7 @@ public class GameScreen extends Base2DScreen implements ActionListener {
             if ( enemyShip.pos.dst2( this.mainShip.pos ) < minDist * minDist ) {
                 enemyShip.destroy();
                 this.mainShip.destroy();
+                this.game.setScreen( new MenuScreen( this.game, true ));
                 this.state = State.GAME_OVER;
                 return;
             }
@@ -307,6 +308,7 @@ public class GameScreen extends Base2DScreen implements ActionListener {
                 bullet.destroy();
                 this.mainShip.damage( bullet.getDamage() );
                 if ( mainShip.isDestroyed() ) {
+                    this.game.setScreen( new MenuScreen( this.game, true ));
                     this.state = State.GAME_OVER;
                 }
                 return;
@@ -363,8 +365,7 @@ public class GameScreen extends Base2DScreen implements ActionListener {
         this.explosionPool.drawActiveObjects( this.batch );
 
         if ( this.state == this.state.GAME_OVER ) {
-            this.messageGameOver.draw( this.batch );
-            this.buttonNewGame.draw( this.batch );
+
         }
         else {
             this.mainShip.draw( this.batch );
@@ -455,9 +456,6 @@ public class GameScreen extends Base2DScreen implements ActionListener {
         if ( this.state == State.PLAYING ) {
             this.mainShip.touchDown( touch, pointer );
         }
-        else {
-            this.buttonNewGame.touchDown( touch, pointer );
-        }
 
         return super.touchDown( touch, pointer );
     }
@@ -466,9 +464,6 @@ public class GameScreen extends Base2DScreen implements ActionListener {
     public boolean touchUp( Vector2 touch, int pointer ) {
         if ( this.state == State.PLAYING ) {
             this.mainShip.touchUp( touch, pointer );
-        }
-        else {
-            this.buttonNewGame.touchUp( touch, pointer );
         }
 
         return super.touchUp( touch, pointer );

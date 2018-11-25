@@ -2,7 +2,6 @@ package com.mygdx.game.screen;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -10,11 +9,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.base.ActionListener;
 import com.mygdx.game.base.Base2DScreen;
+import com.mygdx.game.base.Font;
 import com.mygdx.game.math.Rect;
 import com.mygdx.game.sprite.Background;
 import com.mygdx.game.sprite.BtnExit;
 import com.mygdx.game.sprite.BtnPlay;
 import com.mygdx.game.sprite.BtnRecords;
+import com.mygdx.game.sprite.MessageGameOver;
 import com.mygdx.game.sprite.Star;
 
 /**
@@ -82,12 +83,26 @@ public class MenuScreen extends Base2DScreen implements ActionListener {
     private Game game;
 
     /**
+     *  @access private
+     *  @var MessageGameOver messageGameOver
+     */
+    private MessageGameOver messageGameOver;
+
+    /**
+     *  @access private
+     *  @var boolean isGameOver
+     */
+    private boolean isGameOver;
+
+
+    /**
      * Constructor -
      * @param game -
      */
-    public MenuScreen( Game game ) {
+    public MenuScreen( Game game, boolean isGameOver ) {
         super();
         this.game = game;
+        this.isGameOver = isGameOver;
     }
 
     @Override
@@ -107,6 +122,9 @@ public class MenuScreen extends Base2DScreen implements ActionListener {
         for ( int i = 0; i < this.stars.length; i++ ) {
             this.stars[i] = new Star( this.textureAtlas );
         }
+
+        this.textureAtlas = new TextureAtlas("mainAtlas.tpack" );
+        this.messageGameOver = new MessageGameOver( this.textureAtlas );
     }
 
     @Override
@@ -139,6 +157,10 @@ public class MenuScreen extends Base2DScreen implements ActionListener {
 
         for ( int i = 0; i < this.stars.length; i++ ) {
             this.stars[i].draw( this.batch );
+        }
+
+        if ( this.isGameOver ) {
+            this.messageGameOver.draw( this.batch );
         }
 
         this.btnExit.draw( this.batch );
@@ -191,7 +213,7 @@ public class MenuScreen extends Base2DScreen implements ActionListener {
             Gdx.app.exit();
         }
         else if ( src == this.btnPlay ) {
-            this.game.setScreen( new GameScreen() );
+            this.game.setScreen( new GameScreen( this.game ) );
         }
     }
 
